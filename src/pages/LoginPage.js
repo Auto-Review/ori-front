@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const clientId = process.env.REACT_APP_Google_Client_ID;
 
 const LoginPage = () => {
+
+  const navigate = useNavigate();
+
   const handleLoginSuccess = (credentialResponse) => {
     const accessToken = credentialResponse.credential; // The Google access token
     
@@ -33,6 +36,8 @@ const LoginPage = () => {
     .catch(error => {
       console.error('Error:', error);
     });
+
+    navigate('/HomePage');
   };
 
   // Handle login failure
