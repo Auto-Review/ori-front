@@ -14,7 +14,7 @@ const HomePage = () => {
   const handleTest = () => {
     const accessToken = localStorage.getItem('accessToken'); // Retrieve token from localStorage
     console.log(accessToken);
-    fetch('/api/test', {
+    fetch('/v1/api/auth/test', {
       method: 'GET', // or POST, PUT, DELETE depending on your request type
       headers: {
         'Authorization': accessToken, // Set Authorization header
@@ -30,10 +30,39 @@ const HomePage = () => {
     });
   }
 
+  const handleReissue = () => {
+    const accessToken = localStorage.getItem('accessToken'); // Retrieve token from localStorage
+    const refreshToken = localStorage.getItem('refreshToken');
+    console.log(accessToken);
+    fetch('v1/api/auth/reissued', {
+      method: 'GET', // or POST, PUT, DELETE depending on your request type
+      headers: {
+        'Authorization': accessToken, // Set Authorization header
+        'refreshToken' : refreshToken,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
+      let newAccessToken = response.headers.get("accessToken");
+      let newRefreshToken = response.headers.get("refreshToken");
+      console.log("accessToken", newAccessToken);
+      console.log("refreshToken", newRefreshToken);
+      localStorage.setItem("accessToken", newAccessToken);
+      localStorage.setItem("refreshToken", newRefreshToken);
+    })
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h2>Welcome to Home Page</h2>
       <button onClick={handleTest}>Test</button>
+      <button onClick={handleReissue}>Reissue</button>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

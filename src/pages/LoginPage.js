@@ -12,7 +12,7 @@ const LoginPage = () => {
     const accessToken = credentialResponse.credential; // The Google access token
     
     // Send access token to the backend
-    fetch('/auth/token', {
+    fetch('/v1/api/auth/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
