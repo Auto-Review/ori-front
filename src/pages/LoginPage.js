@@ -11,14 +11,8 @@ const LoginPage = () => {
     const accessToken = credentialResponse.credential; // The Google access token
     
     // Send access token to the backend
-    fetch(`${process.env.REACT_APP_API_URL}/v1/api/auth/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        accessToken: accessToken
-      })
+    axios.post(`${process.env.REACT_APP_API_URL}/v1/api/auth/token`, {
+      accessToken: accessToken
     })
     .then(response => {
       let accessToken = response.headers.get("accessToken");
@@ -28,10 +22,6 @@ const LoginPage = () => {
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-    })
-    .then(data => {
-        console.log("Server response:", data);
-        // Handle success or failure here
     })
     .catch(error => {
       console.error('Error:', error);
