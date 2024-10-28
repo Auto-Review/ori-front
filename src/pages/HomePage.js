@@ -14,11 +14,9 @@ const HomePage = () => {
   const handleTest = () => {
     const accessToken = localStorage.getItem('accessToken'); // Retrieve token from localStorage
     console.log(accessToken);
-    fetch('/v1/api/auth/test', {
-      method: 'GET', // or POST, PUT, DELETE depending on your request type
+    axios.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/test`, {
       headers: {
-        'Authorization': accessToken, // Set Authorization header
-        'Content-Type': 'application/json',
+        Authorization: accessToken, // Set Authorization header
       },
     })
     .then((response) => response.json())
@@ -34,12 +32,10 @@ const HomePage = () => {
     const accessToken = localStorage.getItem('accessToken'); // Retrieve token from localStorage
     const refreshToken = localStorage.getItem('refreshToken');
     console.log(accessToken);
-    fetch('v1/api/auth/reissued', {
-      method: 'GET', // or POST, PUT, DELETE depending on your request type
+    axios.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/reissued`, {
       headers: {
-        'Authorization': accessToken, // Set Authorization header
-        'refreshToken' : refreshToken,
-        'Content-Type': 'application/json',
+        Authorization: accessToken, // Set Authorization header
+        refreshToken : refreshToken,
       },
     })
     .then((response) => {

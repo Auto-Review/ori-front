@@ -1,8 +1,7 @@
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
-
-const clientId = process.env.REACT_APP_Google_Client_ID;
+import axios from 'axios';
 
 const LoginPage = () => {
 
@@ -12,26 +11,17 @@ const LoginPage = () => {
     const accessToken = credentialResponse.credential; // The Google access token
     
     // Send access token to the backend
-    fetch('/v1/api/auth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        accessToken: accessToken
-      })
+    axios.post(`${process.env.REACT_APP_API_URL}/v1/api/auth/token`, {
+      accessToken: accessToken
     })
     .then(response => {
       let accessToken = response.headers.get("accessToken");
       let refreshToken = response.headers.get("refreshToken");
       console.log("accessToken", accessToken);
       console.log("refreshToken", refreshToken);
+
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-    })
-    .then(data => {
-      console.log("Server response:", data);
-      // Handle success or failure here
     })
     .catch(error => {
       console.error('Error:', error);
@@ -46,7 +36,7 @@ const LoginPage = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_Google_Client_ID}>
       <div>
         <h2>Login with Google</h2>
         <GoogleLogin
