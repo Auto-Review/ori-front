@@ -34,7 +34,7 @@ const HomePage = () => {
     const accessToken = localStorage.getItem('accessToken'); // Retrieve token from localStorage
     const refreshToken = localStorage.getItem('refreshToken');
     console.log(accessToken);
-    fetch('v1/api/auth/reissued', {
+    fetch('/v1/api/auth/reissued', {
       method: 'GET', // or POST, PUT, DELETE depending on your request type
       headers: {
         'Authorization': accessToken, // Set Authorization header
