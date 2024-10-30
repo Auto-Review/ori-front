@@ -19,7 +19,7 @@ const TILSavePage = () => {
 
         try {
             console.log(accessToken);
-            await axiosInstance.post(`${process.env.REACT_APP_API_URL}/v1/api/til/save`, {
+            await axiosInstance.post('/v1/api/til/save', {
                 title: title,
                 content: body,
             });

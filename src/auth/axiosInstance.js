@@ -7,6 +7,8 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
+axiosInstance.defaults.baseURL = `${process.env.REACT_APP_API_URL}`
+
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
 const TILListPage = () => {
-    const [posts, setPosts] = useState([]); 
+    const [posts, setPosts] = useState([]);
+    // TODO page, size 변경 로직 작성 
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);
     const accessToken = localStorage.getItem('accessToken');
@@ -13,7 +14,7 @@ const TILListPage = () => {
         const fetchPosts = async (page, size) => {
             const params = {page, size};
             try{
-                const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/v1/api/til`,{params})
+                const response = await axiosInstance.get('/v1/api/til',{params})
                 setPosts(response.data);
                 console.log(posts);
             } catch (error) {
@@ -36,6 +37,9 @@ const TILListPage = () => {
             <div key={post.id} style={{ border: '1px solid #ddd', padding: '10px', marginBottom: '10px' }}>
                 <h2>{post.title}</h2>
                 <p>{post.content}</p>
+                <Link to={`/TILDetailsPage/${post.id}`} style={{ color: 'blue', textDecoration: 'underline' }}>
+                    detail Post
+                </Link>
             </div>
             ))}
         </div>

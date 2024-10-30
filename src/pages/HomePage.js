@@ -13,7 +13,7 @@ const HomePage = () => {
 	};
 
 	const handleTest = () => {
-		axiosInstance.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/test`)
+		axiosInstance.get('/v1/api/auth/test')
 		.then((response) => {
 			console.log('Success:', response);
 		})
