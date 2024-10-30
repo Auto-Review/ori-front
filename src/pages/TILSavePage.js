@@ -5,15 +5,12 @@ import axiosInstance from '../auth/axiosInstance';
 const TILSavePage = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
-    const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
     
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission
-        setLoading(true);
         setError(null);
         setSuccess(false);
 
@@ -26,12 +23,9 @@ const TILSavePage = () => {
             setSuccess(true);
             setTitle(''); // Reset form fields
             setBody('');
-            } catch (err) {
+        } catch (err) {
             setError(err.message);
-            } finally {
-            setLoading(false);
-        }
-
+        } 
         navigate('/TILListPage');
     };
 

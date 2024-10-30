@@ -7,7 +7,6 @@ const TILListPage = () => {
     // TODO page, size 변경 로직 작성 
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);
-    const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
 
     useEffect(() => {
