@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../auth/axiosInstance';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -12,16 +13,9 @@ const HomePage = () => {
 	};
 
 	const handleTest = () => {
-		const accessToken = localStorage.getItem('accessToken'); // Retrieve token from localStorage
-		console.log(accessToken);
-		axios.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/test`, {
-			headers: {
-				Authorization: accessToken, // Set Authorization header
-			},
-		})
-		.then((response) => response.json())
-		.then((data) => {
-			console.log('Success:', data);
+		axiosInstance.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/test`)
+		.then((response) => {
+			console.log('Success:', response);
 		})
 		.catch((error) => {
 			console.error('Error:', error);

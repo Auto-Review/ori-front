@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../auth/axiosInstance';
 
 const TILSavePage = () => {
     const [title, setTitle] = useState('');
@@ -19,14 +19,9 @@ const TILSavePage = () => {
 
         try {
             console.log(accessToken);
-            await axios.post(`${process.env.REACT_APP_API_URL}/v1/api/til/save`, {
+            await axiosInstance.post(`${process.env.REACT_APP_API_URL}/v1/api/til/save`, {
                 title: title,
                 content: body,
-            },    
-                {
-                headers:{
-                    Authorization: accessToken,
-                }
             });
             setSuccess(true);
             setTitle(''); // Reset form fields

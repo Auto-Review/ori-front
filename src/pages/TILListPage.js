@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../auth/axiosInstance';
 
 const TILListPage = () => {
     const [posts, setPosts] = useState([]); 
@@ -13,13 +13,7 @@ const TILListPage = () => {
         const fetchPosts = async (page, size) => {
             const params = {page, size};
             try{
-                let config = {
-                    headers:{
-                        Authorization: accessToken,
-                    },
-                    params,
-                }    
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/v1/api/til`, config)
+                const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/v1/api/til`,{params})
                 setPosts(response.data);
                 console.log(posts);
             } catch (error) {
