@@ -50,7 +50,10 @@ const TILDetailsPage = () => {
 			Back to Posts
 		</button>
 		<button onClick={handleDelete}>delete</button>
-		<Link to={`/TILUpdatePage/${post.id}`} style={{ display: 'block', marginTop: '10px', color: 'blue', textDecoration: 'underline' }}>
+		<Link to={`/TILUpdatePage/${post.id}`} 
+			style={{ display: 'block', marginTop: '10px', color: 'blue', textDecoration: 'underline' }}
+			state={{ post }}
+		>
 			Update Post
 		</Link>
 		

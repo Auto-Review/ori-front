@@ -15,7 +15,6 @@ const TILSavePage = () => {
         setSuccess(false);
 
         try {
-            console.log(accessToken);
             await axiosInstance.post('/v1/api/til/save', {
                 title: title,
                 content: body,
@@ -52,8 +51,8 @@ const TILSavePage = () => {
                     style={{ marginBottom: '10px', padding: '8px', height: '100px' }}
                 />
             
-                <button type="submit" disabled={loading} style={{ padding: '10px' }}>
-                {loading ? 'Creating Post...' : 'Create Post'}
+                <button type="submit" style={{ padding: '10px' }}>
+                    submit
                 </button>
             </form>
 

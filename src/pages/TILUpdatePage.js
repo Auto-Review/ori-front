@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../auth/axiosInstance';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 const UpdatePostPage = () => {
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const { id } = useParams(); // Get post ID from URL parameters
+    const location = useLocation();
     const navigate = useNavigate();
 
+    // Use post data from route state if available, otherwise set to null
+    const initialPost = location.state?.post || null;
+    
+    const [title, setTitle] = useState(initialPost ? initialPost.title : '');
+    const [body, setBody] = useState(initialPost ? initialPost.content : '');
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
