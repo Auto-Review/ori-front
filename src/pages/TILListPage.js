@@ -14,8 +14,7 @@ const TILListPage = () => {
             const params = {page, size};
             try{
                 const response = await axiosInstance.get('/v1/api/til',{params})
-                setPosts(response.data);
-                console.log(posts);
+                setPosts(response.data.data);
             } catch (error) {
                 console.error('Fetch posts failed:', error);
             }
@@ -32,7 +31,7 @@ const TILListPage = () => {
         <div style={{ padding: '20px' }}>
         <h1>Posts</h1>
         <div>
-            {posts.data && posts.data.map((post) => (
+            {posts && posts.map((post) => (
             <div key={post.id} style={{ border: '1px solid #ddd', padding: '10px', marginBottom: '10px' }}>
                 <h2>{post.title}</h2>
                 <p>{post.content}</p>
