@@ -29,12 +29,12 @@ axiosInstance.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        if(error.response && (error.response.status === 401 || error.response.status === 403) && !originalRequest._retry){
+        if(error.response && (error.response.status === 401) && !originalRequest._retry){
 
             originalRequest._retry = true;
 
             try{
-                const { headers } = await axios.get('/api/reissue', {
+                const { headers } = await axios.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/reissued`, {
                     headers:{
                         Authorization: localStorage.getItem('accessToken'),
                         refreshToken: localStorage.getItem('refreshToken'),
@@ -58,7 +58,7 @@ axiosInstance.interceptors.response.use(
                 window.location.href = '/';
                 return Promise.reject(error);
             }
-        } else if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        } else if(error.response && (error.response.status === 401)){
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             window.location.href = '/';
