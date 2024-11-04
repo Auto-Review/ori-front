@@ -7,6 +7,8 @@ const TILListPage = () => {
     // TODO page, size 변경 로직 작성 
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);
+    const [totalPage, setTotalPage] = useState();
+    const [hasMore, setHasMore] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,7 +16,9 @@ const TILListPage = () => {
             const params = {page, size};
             try{
                 const response = await axiosInstance.get('/v1/api/til',{params})
-                setPosts(response.data.data);
+                console.log(response);
+                setPosts(response.data.data.list);
+                setTotalPage(response.data.data.totalPage);
             } catch (error) {
                 console.error('Fetch posts failed:', error);
             }
@@ -26,6 +30,18 @@ const TILListPage = () => {
     const handleWrite = () => {
 		navigate('/TILSavePage');
 	}
+
+    const handleNextPage = () => {
+        if (page + 1 < totalPage) {
+            setPage(page + 1); // Go to the next page
+        }
+    };
+    
+    const handlePreviousPage = () => {
+        if (page > 0) {
+            setPage(page - 1); // Go to the previous page
+        }
+    };
 
     return (
         <div style={{ padding: '20px' }}>
@@ -41,6 +57,16 @@ const TILListPage = () => {
             </div>
             ))}
         </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+            <button onClick={handlePreviousPage} disabled={page === 0}>
+                Previous
+            </button>
+            <button onClick={handleNextPage} disabled={page + 1 >= totalPage}>
+                Next
+            </button>
+        </div>
+        
         <button onClick={handleWrite}>write</button>
         </div>
     );

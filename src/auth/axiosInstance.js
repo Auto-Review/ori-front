@@ -12,6 +12,7 @@ axiosInstance.defaults.baseURL = `${process.env.REACT_APP_API_URL}`
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
+        console.log("current axiosIntstance accessToken = ", token);
         if (token) {
         config.headers['Authorization'] = token; 
         }
@@ -25,7 +26,7 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
     (response) => {
-        return response
+        return response;
     },
     async (error) => {
         const originalRequest = error.config;
@@ -34,7 +35,7 @@ axiosInstance.interceptors.response.use(
             originalRequest._retry = true;
 
             try{
-                const { headers } = await axios.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/reissued`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/v1/api/auth/reissued`, {
                     headers:{
                         Authorization: localStorage.getItem('accessToken'),
                         refreshToken: localStorage.getItem('refreshToken'),
@@ -42,26 +43,31 @@ axiosInstance.interceptors.response.use(
                     withCredentials: true,
                 });
                 
-                const newAccessToken = headers['accessToken'];
-                const newRefreshToken = headers['refreshToken'];
+                const newAccessToken = response.headers.get('accessToken');
+                const newRefreshToken = response.headers.get('refreshToken');
+
+                console.log("new accessToken = ", newAccessToken);
+                console.log("new refreshToken = ", newRefreshToken);
                 
                 if (newAccessToken && newRefreshToken) {
                     localStorage.setItem('accessToken', newAccessToken);
                     localStorage.setItem('refreshToken', newRefreshToken);
                     originalRequest.headers['Authorization'] = newAccessToken;
+
+                    console.log(originalRequest);
                     return axiosInstance(originalRequest);
                 }
           
             } catch(error){
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                window.location.href = '/';
+                //window.location.href = '/';
                 return Promise.reject(error);
             }
         } else if(error.response && (error.response.status === 401)){
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            window.location.href = '/';
+            //window.location.href = '/';
             return Promise.reject(error);
         }
     }
