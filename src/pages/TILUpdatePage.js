@@ -37,34 +37,39 @@ const UpdatePostPage = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
-        <h1>Update Post</h1>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-            <label htmlFor="title">Title:</label>
-            <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            style={{ marginBottom: '10px', padding: '8px' }}
-            />
+        <div className="container mt-5">
+            <h1 className="mb-4">Update Post</h1>
+            <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+                <div className="mb-3">
+                    <label htmlFor="title" className="form-label">Title:</label>
+                    <input
+                        id="title"
+                        type="text"
+                        className="form-control"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                </div>
 
-            <label htmlFor="body">Body:</label>
-            <textarea
-            id="body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            required
-            style={{ marginBottom: '10px', padding: '8px', height: '100px' }}
-            />
+                <div className="mb-3">
+                    <label htmlFor="body" className="form-label">Body:</label>
+                    <textarea
+                        id="body"
+                        className="form-control"
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                        required
+                        rows="5"
+                    />
+                </div>
 
-            <button type="submit" disabled={loading} style={{ padding: '10px' }}>
-            {loading ? 'Updating Post...' : 'Update Post'}
-            </button>
-        </form>
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                    {loading ? 'Updating Post...' : 'Update Post'}
+                </button>
+            </form>
 
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            {error && <p className="text-danger mt-3">Error: {error}</p>}
         </div>
     );
 };

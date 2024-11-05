@@ -29,35 +29,39 @@ const TILSavePage = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
-            <h1>Create a New Post</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-                <label htmlFor="title">Title:</label>
-                <input
-                    id="title"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    style={{ marginBottom: '10px', padding: '8px' }}
-                />
-            
-                <label htmlFor="body">Body:</label>
-                <textarea
-                    id="body"
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                    required
-                    style={{ marginBottom: '10px', padding: '8px', height: '100px' }}
-                />
-            
-                <button type="submit" style={{ padding: '10px' }}>
-                    submit
-                </button>
+        <div className="container mt-5" style={{ maxWidth: '500px' }}>
+            <h1 className="text-center mb-4">Create a New Post</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="title" className="form-label">제목:</label>
+                    <input
+                        id="title"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="body" className="form-label">본문:</label>
+                    <textarea
+                        id="body"
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                        required
+                        className="form-control"
+                        rows="4"
+                    />
+                </div>
+
+                <button type="submit" className="btn btn-primary w-100">Submit</button>
             </form>
 
-            {success && <p style={{ color: 'green' }}>Post created successfully!</p>}
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            {/* Success and Error Messages */}
+            {success && <p className="text-success mt-3 text-center">Post created successfully!</p>}
+            {error && <p className="text-danger mt-3 text-center">Error: {error}</p>}
         </div>
     );
 };

@@ -43,21 +43,41 @@ const TILDetailsPage = () => {
 	if (!post) return <p>Post not found.</p>;
 
 	return (
-    <div style={{ padding: '20px' }}>
-		<h1>{post.title}</h1>
-		<p>{post.content}</p>
-		<button onClick={() => navigate('/TILListPage')} style={{ marginTop: '20px' }}>
-			Back to Posts
-		</button>
-		<button onClick={handleDelete}>delete</button>
-		<Link to={`/TILUpdatePage/${post.id}`} 
-			style={{ display: 'block', marginTop: '10px', color: 'blue', textDecoration: 'underline' }}
-			state={{ post }}
-		>
-			Update Post
-		</Link>
+		<div className="container mt-5">
+		{/* Post Title */}
+		<h1 className="display-4 mb-3">{post.title}</h1>
 		
-    </div>
+		{/* Post Content */}
+		<p className="lead mb-5">{post.content}</p>
+
+		{/* Button Group */}
+		<div className="d-flex gap-3">
+			{/* Back Button */}
+			<button 
+				onClick={() => navigate('/TILListPage')}
+				className="btn btn-secondary"
+			>
+				Back to Posts
+			</button>
+			
+			{/* Delete Button */}
+			<button 
+				onClick={handleDelete} 
+				className="btn btn-danger"
+			>
+				Delete
+			</button>
+
+			{/* Update Link */}
+			<Link 
+				to={`/TILUpdatePage/${post.id}`}
+				state={{ post }}
+				className="btn btn-primary"
+			>
+				Update Post
+			</Link>
+		</div>
+	</div>
   	);
 };
 
