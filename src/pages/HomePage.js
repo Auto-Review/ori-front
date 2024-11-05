@@ -52,12 +52,17 @@ const HomePage = () => {
 		navigate('/TILListPage');
 	}
 
+	const handleCodeList = () => {
+		navigate('/CodeListPage');
+	}
+
 	return (
 		<div style={{ textAlign: 'center', marginTop: '50px' }}>
 			<h2>Welcome to Home Page</h2>
 			<button onClick={handleTest}>Test</button>
 			<button onClick={handleReissue}>Reissue</button>
 			<button onClick={handleTILList}>TIL</button>
+			<button onClick={handleCodeList}>Code</button>
 			<button onClick={handleLogout}>Logout</button>
 		</div>
 	);

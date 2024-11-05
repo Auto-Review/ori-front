@@ -7,6 +7,10 @@ import TILListPage from './pages/TILListPage';
 import TILSavePage from './pages/TILSavePage';
 import TILUpdatePage from './pages/TILUpdatePage';
 import TILDetailsPage from './pages/TILDetailsPage';
+import CodeListPage from './pages/CodeListPage';
+import CodeSavePage from './pages/CodeSavePage';
+import CodeUpdatePage from './pages/CodeUpdatePage';
+import CodeDetailsPage from './pages/CodeDetailsPage';
 
 function App() {
   return (
@@ -18,6 +22,10 @@ function App() {
         <Route path="/TILSavePage" element={<TILSavePage />} />
         <Route path="/TILUpdatePage/:id" element={<TILUpdatePage />} />
         <Route path="/TILDetailsPage/:id" element={<TILDetailsPage />} />
+        <Route path="/CodeListPage" element={<CodeListPage />} />
+        <Route path="/CodeSavePage" element={<CodeSavePage />} />
+        <Route path="/CodeUpdatePage/:id" element={<CodeUpdatePage />} />
+        <Route path="/CodeDetailsPage/:id" element={<CodeDetailsPage />} />
       </Routes>
     </Router>
   );
