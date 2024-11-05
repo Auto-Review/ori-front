@@ -37,13 +37,18 @@ const LoginPage = () => {
 
 	return (
 		<GoogleOAuthProvider clientId={process.env.REACT_APP_Google_Client_ID}>
-		<div>
-			<h2>Login with Google</h2>
-			<GoogleLogin
-				onSuccess={handleLoginSuccess}
-				onError={handleLoginFailure}
-			/>
-		</div>
+		<div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+			<div className="card p-4" style={{ maxWidth: '400px', width: '100%', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
+				<h2 className="text-center mb-4" style={{ color: '#333' }}>Login</h2>
+				<GoogleLogin
+					onSuccess={handleLoginSuccess}
+					onError={handleLoginFailure}
+					size="large"
+					theme="outline"
+					shape="pill"
+				/>
+			</div>
+      	</div>
 		</GoogleOAuthProvider>
 	);
 };
