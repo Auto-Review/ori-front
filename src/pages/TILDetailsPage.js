@@ -13,7 +13,7 @@ const TILDetailsPage = () => {
 	// Fetch post details from the backend API
 	const fetchPost = async () => {
 		try {
-			const response = await axiosInstance.get(`/v1/api/til/${id}`);
+			const response = await axiosInstance.get(`/v1/api/til/view/${id}`);
 			setPost(response.data.data);
 			console.log(response);
 		} catch (err) {

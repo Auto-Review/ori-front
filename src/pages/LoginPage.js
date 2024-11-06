@@ -15,13 +15,18 @@ const LoginPage = () => {
       	accessToken: accessToken
     })
     .then(response => {
+		console.log(response);
 		let accessToken = response.headers.get("accessToken");
 		let refreshToken = response.headers.get("refreshToken");
+		let email = response.data.data;
+		
 		console.log("accessToken", accessToken);
 		console.log("refreshToken", refreshToken);
+		console.log("email", email);
 
 		localStorage.setItem("accessToken", accessToken);
 		localStorage.setItem("refreshToken", refreshToken);
+		localStorage.setItem("email", email);
     })
     .catch(error => {
       	console.error('Error:', error);
