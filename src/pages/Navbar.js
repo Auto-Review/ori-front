@@ -15,7 +15,7 @@ const Navbar = () => {
         localStorage.removeItem('email');
         setEmail(null);
         alert("로그아웃 되었습니다");
-		window.location.href = '/';
+		window.location.href = '/Login';
 	};
 
     return (
