@@ -35,7 +35,7 @@ const CodeDetailsPage = () => {
 		} finally {
 			setLoading(false);
 		}
-		navigate('/CodeListPage');
+		navigate('/Code');
 	}
 
 	if (loading) return <p>Loading post details...</p>;
@@ -79,7 +79,7 @@ const CodeDetailsPage = () => {
 
 			{/* Update Link */}
 			<Link 
-				to={`/CodeUpdatePage/${post.id}`}
+				to={`/CodeUpdate/${post.id}`}
 				state={{ post }}
 				className="btn btn-primary"
 			>

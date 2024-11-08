@@ -33,15 +33,15 @@ function MemberLayout(){
         <Container>
           <Routes>
             <Route path="/" element={<CodeListPage />} />
-            <Route path="/HomePage" element={<HomePage />} />
-            <Route path="/TILListPage" element={<TILListPage />} />
-            <Route path="/TILSavePage" element={<TILSavePage />} />
-            <Route path="/TILUpdatePage/:id" element={<TILUpdatePage />} />
-            <Route path="/TILDetailsPage/:id" element={<TILDetailsPage />} />
-            <Route path="/CodeListPage" element={<CodeListPage />} />
-            <Route path="/CodeSavePage" element={<CodeSavePage />} />
-            <Route path="/CodeUpdatePage/:id" element={<CodeUpdatePage />} />
-            <Route path="/CodeDetailsPage/:id" element={<CodeDetailsPage />} />
+            <Route path="/Home" element={<HomePage />} />
+            <Route path="/TIL" element={<TILListPage />} />
+            <Route path="/TILSave" element={<TILSavePage />} />
+            <Route path="/TILUpdate/:id" element={<TILUpdatePage />} />
+            <Route path="/TILDetails/:id" element={<TILDetailsPage />} />
+            <Route path="/Code" element={<CodeListPage />} />
+            <Route path="/CodeSave" element={<CodeSavePage />} />
+            <Route path="/CodeUpdate/:id" element={<CodeUpdatePage />} />
+            <Route path="/CodeDetails/:id" element={<CodeDetailsPage />} />
           </Routes>
         </Container>
     </div>

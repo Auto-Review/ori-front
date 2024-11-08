@@ -39,7 +39,7 @@ const CodeUpdatePage = () => {
             setLoading(false);
         }
 
-        navigate('/CodeListPage'); // Redirect to posts page after updating
+        navigate('/Code'); // Redirect to posts page after updating
     };
 
     return (

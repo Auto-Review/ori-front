@@ -22,7 +22,7 @@ const Navbar = () => {
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
             <div className="container">
                 {/* Left-aligned Links */}
-                <Link to="/" className="navbar-brand">MyApp</Link>
+                <Link to="/" className="navbar-brand">Ori</Link>
                 
                 <button 
                     className="navbar-toggler" 
@@ -39,10 +39,10 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">Home</Link>
+                            <Link to="/" className="nav-link">Code</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/TILListPage" className="nav-link">Posts</Link>
+                            <Link to="/TIL" className="nav-link">TIL</Link>
                         </li>
                     </ul>
 
@@ -80,7 +80,7 @@ const Navbar = () => {
                                 data-bs-toggle="dropdown" 
                                 aria-expanded="false"
                             >
-                                Create Post
+                                글쓰기
                             </button>
                             <ul className="dropdown-menu" aria-labelledby="createPostDropdown">
                                 <li>
@@ -88,15 +88,15 @@ const Navbar = () => {
                                         className="dropdown-item" 
                                         onClick={() => navigate('/CodeSavePage')}
                                     >
-                                        Create Code Post
+                                        Code
                                     </button>
                                 </li>
                                 <li>
                                     <button 
                                         className="dropdown-item" 
-                                        onClick={() => navigate('/TILSavePage')}
+                                        onClick={() => navigate('/TILSave')}
                                     >
-                                        Create TIL Post
+                                        TIL
                                     </button>
                                 </li>
                             </ul>

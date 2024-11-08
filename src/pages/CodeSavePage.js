@@ -29,7 +29,7 @@ const CodeSavePage = () => {
         } catch (err) {
             setError(err.message);
         } 
-        navigate('/CodeListPage');
+        navigate('/Code');
     };
 
     return (

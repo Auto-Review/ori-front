@@ -21,7 +21,7 @@ const UpdatePostPage = () => {
         setError(null);
 
         try {
-        await axiosInstance.put('/v1/api/til/update', {
+        await axiosInstance.put('/v1/api/post/til/update', {
             id: id,
             title: title,
             content: body,
@@ -33,7 +33,7 @@ const UpdatePostPage = () => {
             setLoading(false);
         }
 
-        navigate('/TILListPage'); // Redirect to posts page after updating
+        navigate('/TIL'); // Redirect to posts page after updating
     };
 
     return (

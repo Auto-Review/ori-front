@@ -9,31 +9,32 @@ const TILListPage = () => {
     const [size, setSize] = useState(9);
     const [totalPage, setTotalPage] = useState();
     const [keyword, setKeyword] = useState();
+    const [my, setMy] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchPosts = async (page, size, keyword) => {
+        const fetchPosts = async (page, size, keyword, my) => {
             const params = {page, size};
 
             try{
                 if(keyword){
                     params.keyword = keyword;
                 }
-
-                const response = await axiosInstance.get(keyword ? 'v1/api/til/search' : '/v1/api/til/view-all', {params} )
+                
+                const response = await axiosInstance.get(my ? ('/v1/api/post/til/mine') : (keyword ? 'v1/api/post/til/search' : '/v1/api/post/til/view-all'), {params} )
                 console.log(response);
-                setPosts(response.data.data.list);
+                setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
             } catch (error) {
                 console.error('Fetch posts failed:', error);
             }
         }
 
-        fetchPosts(page, size, keyword);
-    }, [page, size, keyword]); 
+        fetchPosts(page, size, keyword, my);
+    }, [page, size, keyword, my]); 
 
-    const handleWrite = () => {
-		navigate('/TILSavePage');
+    const toggleShowMode = () => {
+		setMy((prev) => !prev);
 	}
 
     const handleNextPage = () => {
@@ -62,11 +63,11 @@ const TILListPage = () => {
 
     return (
         <div className="container mt-4">
-            {/* Header with Title and Write Button */}
+            {/* Header with Title and Write Toggle */}
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h1>Posts</h1>
-                <button onClick={handleWrite} className="btn btn-primary">
-                    Write a New Post
+                <button onClick={toggleShowMode} className="btn btn-primary">
+                    {my ? 'My' : 'All'}
                 </button>
             </div>
 
@@ -87,7 +88,7 @@ const TILListPage = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{post.title}</h5>
                                     <p className="card-text text-muted">{post.content}</p>
-                                    <Link to={`/TILDetailsPage/${post.id}`} className="btn btn-outline-primary btn-sm mt-3">
+                                    <Link to={`/TILDetails/${post.id}`} className="btn btn-outline-primary btn-sm mt-3">
                                         View Details
                                     </Link>
                                 </div>

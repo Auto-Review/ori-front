@@ -33,7 +33,7 @@ const CodeListPage = () => {
     }, [page, size, keyword]); 
 
     const handleWrite = () => {
-		navigate('/CodeSavePage');
+		navigate('/CodeSave');
 	}
 
     const handleNextPage = () => {
@@ -87,7 +87,7 @@ const CodeListPage = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{post.title}</h5>
                                     <p className="card-text text-muted">{post.content}</p>
-                                    <Link to={`/CodeDetailsPage/${post.id}`} className="btn btn-outline-primary btn-sm mt-3">
+                                    <Link to={`/CodeDetails/${post.id}`} className="btn btn-outline-primary btn-sm mt-3">
                                         View Details
                                     </Link>
                                 </div>

@@ -29,13 +29,13 @@ const TILDetailsPage = () => {
 
 	const handleDelete = async () => {
 		try{
-			const response = await axiosInstance.delete(`/v1/api/til/delete/${id}`)
+			const response = await axiosInstance.delete(`/v1/api/post/til/delete/${id}`)
 		} catch (err) {
 			setError('Failed to load post details');
 		} finally {
 			setLoading(false);
 		}
-		navigate('/TILListPage');
+		navigate('/TIL');
 	}
 
 	if (loading) return <p>Loading post details...</p>;
@@ -54,7 +54,7 @@ const TILDetailsPage = () => {
 		<div className="d-flex gap-3">
 			{/* Back Button */}
 			<button 
-				onClick={() => navigate('/TILListPage')}
+				onClick={() => navigate('/TIL')}
 				className="btn btn-secondary"
 			>
 				Back to Posts
@@ -70,7 +70,7 @@ const TILDetailsPage = () => {
 
 			{/* Update Link */}
 			<Link 
-				to={`/TILUpdatePage/${post.id}`}
+				to={`/TILUpdate/${post.id}`}
 				state={{ post }}
 				className="btn btn-primary"
 			>

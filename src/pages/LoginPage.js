@@ -32,7 +32,7 @@ const LoginPage = () => {
 			console.error('Error:', error);
 		});
 
-		window.location.href = '/CodeListPage';
+		window.location.href = '/Code';
   	};
 
   	// Handle login failure
