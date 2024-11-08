@@ -21,7 +21,7 @@ const TILListPage = () => {
                     params.keyword = keyword;
                 }
                 
-                const response = await axiosInstance.get(my ? ('/v1/api/post/til/mine') : (keyword ? 'v1/api/post/til/search' : '/v1/api/post/til/view-all'), {params} )
+                const response = await axiosInstance.get(my ? (keyword ? 'v1/api/post/til/my/search' : '/v1/api/post/til/my/view-all') : (keyword ? 'v1/api/post/til/search' : '/v1/api/post/til/view-all'), {params} )
                 console.log(response);
                 setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
@@ -65,7 +65,7 @@ const TILListPage = () => {
         <div className="container mt-4">
             {/* Header with Title and Write Toggle */}
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h1>Posts</h1>
+                <h1>TIL</h1>
                 <button onClick={toggleShowMode} className="btn btn-primary">
                     {my ? 'My' : 'All'}
                 </button>
@@ -84,15 +84,14 @@ const TILListPage = () => {
                 {posts &&
                     posts.map((post) => (
                         <div key={post.id} className="col-12 col-md-6 col-lg-4 mb-4">
-                            <div className="card h-100 shadow-sm">
-                                <div className="card-body">
-                                    <h5 className="card-title">{post.title}</h5>
-                                    <p className="card-text text-muted">{post.content}</p>
-                                    <Link to={`/TILDetails/${post.id}`} className="btn btn-outline-primary btn-sm mt-3">
-                                        View Details
-                                    </Link>
+                            <Link to={`/TILDetails/${post.id}`} className="text-decoration-none">
+                                <div className="card h-100 shadow-sm">
+                                    <div className="card-body">
+                                        <h5 className="card-title">{post.title}</h5>
+                                        <p className="card-text text-muted">{post.content}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     ))}
             </div>

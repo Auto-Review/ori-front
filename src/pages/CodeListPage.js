@@ -9,10 +9,11 @@ const CodeListPage = () => {
     const [size, setSize] = useState(9);
     const [totalPage, setTotalPage] = useState();
     const [keyword, setKeyword] = useState();
+    const [my, setMy] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchPosts = async (page, size, keyword) => {
+        const fetchPosts = async (page, size, keyword, my) => {
             const params = {page, size};
 
             try{
@@ -20,20 +21,20 @@ const CodeListPage = () => {
                     params.keyword = keyword;
                 }
 
-                const response = await axiosInstance.get(keyword ? 'v1/api/post/code/search' : '/v1/api/post/code/view-all', {params} )
+                const response = await axiosInstance.get(my ? (keyword ? 'v1/api/post/code/my/search' : '/v1/api/post/code/my/view-all') : (keyword ? 'v1/api/post/code/search' : '/v1/api/post/code/view-all'), {params} )
                 console.log(response);
-                setPosts(response.data.data.codePostResponseDtoList);
+                setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
             } catch (error) {
                 console.error('Fetch posts failed:', error);
             }
         }
 
-        fetchPosts(page, size, keyword);
-    }, [page, size, keyword]); 
+        fetchPosts(page, size, keyword, my);
+    }, [page, size, keyword, my]); 
 
-    const handleWrite = () => {
-		navigate('/CodeSave');
+    const toggleShowMode = () => {
+		setMy((prev) => !prev);
 	}
 
     const handleNextPage = () => {
@@ -64,9 +65,9 @@ const CodeListPage = () => {
         <div className="container mt-4">
             {/* Header with Title and Write Button */}
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h1>Posts</h1>
-                <button onClick={handleWrite} className="btn btn-primary">
-                    Write a New Post
+                <h1>Code</h1>
+                <button onClick={toggleShowMode} className="btn btn-primary">
+                    {my ? 'My' : 'All'}
                 </button>
             </div>
 
@@ -83,15 +84,24 @@ const CodeListPage = () => {
                 {posts &&
                     posts.map((post) => (
                         <div key={post.id} className="col-12 col-md-6 col-lg-4 mb-4">
-                            <div className="card h-100 shadow-sm">
-                                <div className="card-body">
-                                    <h5 className="card-title">{post.title}</h5>
-                                    <p className="card-text text-muted">{post.content}</p>
-                                    <Link to={`/CodeDetails/${post.id}`} className="btn btn-outline-primary btn-sm mt-3">
-                                        View Details
-                                    </Link>
+                            <Link to={`/CodeDetails/${post.id}`} className="text-decoration-none">
+                                <div className="card h-100 shadow-sm position-relative">
+                                    {/* Star Rating in the Top-Right Corner */}
+                                    <div className="position-absolute top-0 end-0 p-2">
+                                        {[...Array(5)].map((_, index) => (
+                                            <span key={index} style={{ color: index < post.level ? '#ffc107' : '#e4e5e9' }}>
+                                                {index < post.level ? '★' : '☆'}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    
+                                    <div className="card-body">
+                                        <h5 className="card-title">{post.title}</h5>
+                                        <p className="card-text text-muted">{post.description}</p>
+                                        <p className="card-text text-muted">{post.member.nickname}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     ))}
             </div>

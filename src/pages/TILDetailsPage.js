@@ -13,7 +13,7 @@ const TILDetailsPage = () => {
 	// Fetch post details from the backend API
 	const fetchPost = async () => {
 		try {
-			const response = await axiosInstance.get(`/v1/api/til/view/${id}`);
+			const response = await axiosInstance.get(`/v1/api/post/til/view/${id}`);
 			setPost(response.data.data);
 			console.log(response);
 		} catch (err) {
@@ -44,40 +44,53 @@ const TILDetailsPage = () => {
 
 	return (
 		<div className="container mt-5">
-		{/* Post Title */}
-		<h1 className="display-4 mb-3">{post.title}</h1>
-		
-		{/* Post Content */}
-		<p className="lead mb-5">{post.content}</p>
+			{/* Title, Nickname, and Creation Date Combined */}
+			<div className="mb-5">
+				<h1 className="display-4">{post.title}</h1>
+				<p className="text-muted d-flex justify-content-between align-items-center">
+                    <span>
+                        {post.member.nickname} | {new Date(post.createDate).toLocaleString('ko-KR', { 
+                            year: 'numeric', month: '2-digit', day: '2-digit', 
+                            hour: '2-digit', minute: '2-digit', hour12: false 
+                        })}
+                    </span>
+                    {/* Dropdown Button */}
+                    <div className="dropdown">
+                        <button 
+                            className="btn btn-secondary dropdown-toggle" 
+                            type="button" 
+                            id="dropdownMenuButton" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false"
+                        >
+                        </button>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <Link 
+                                    to={`/TILUpdate/${post.id}`} 
+                                    state={{ post }} 
+                                    className="dropdown-item"
+                                >
+                                    수정
+                                </Link>
+                            </li>
+                            <li>
+                                <button 
+                                    onClick={handleDelete} 
+                                    className="dropdown-item"
+                                >
+                                    삭제
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </p>
+			</div>
 
-		{/* Button Group */}
-		<div className="d-flex gap-3">
-			{/* Back Button */}
-			<button 
-				onClick={() => navigate('/TIL')}
-				className="btn btn-secondary"
-			>
-				Back to Posts
-			</button>
-			
-			{/* Delete Button */}
-			<button 
-				onClick={handleDelete} 
-				className="btn btn-danger"
-			>
-				Delete
-			</button>
+			{/* Post Content */}
+			<p className="lead mb-5">{post.content}</p>
 
-			{/* Update Link */}
-			<Link 
-				to={`/TILUpdate/${post.id}`}
-				state={{ post }}
-				className="btn btn-primary"
-			>
-				Update Post
-			</Link>
 		</div>
-	</div>
   	);
 };
 

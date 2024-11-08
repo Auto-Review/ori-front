@@ -86,7 +86,7 @@ const Navbar = () => {
                                 <li>
                                     <button 
                                         className="dropdown-item" 
-                                        onClick={() => navigate('/CodeSavePage')}
+                                        onClick={() => navigate('/CodeSave')}
                                     >
                                         Code
                                     </button>
