@@ -9,7 +9,7 @@ const CodeListPage = () => {
     const [size, setSize] = useState(9);
     const [totalPage, setTotalPage] = useState();
     const [keyword, setKeyword] = useState();
-    const [my, setMy] = useState(true);
+    const [my, setMy] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
