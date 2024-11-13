@@ -10,20 +10,20 @@ const CodeDetailsPage = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-	// Fetch post details from the backend API
-	const fetchPost = async () => {
-		try {
-			const response = await axiosInstance.get(`/v1/api/post/code/view/${id}`);
-			setPost(response.data.data);
-			console.log(response);
-		} catch (err) {
-			setError('Failed to load post details');
-		} finally {
-			setLoading(false);
-		}
-	};
+		// Fetch post details from the backend API
+		const fetchPost = async () => {
+			try {
+				const response = await axiosInstance.get(`/v1/api/post/code/view/${id}`);
+				setPost(response.data.data);
+				console.log(response);
+			} catch (err) {
+				setError('Failed to load post details');
+			} finally {
+				setLoading(false);
+			}
+		};
 
-	fetchPost();
+		fetchPost();
 	}, [id]);
 
 
@@ -35,7 +35,7 @@ const CodeDetailsPage = () => {
 		} finally {
 			setLoading(false);
 		}
-		navigate('/CodeListPage');
+		navigate('/Code');
 	}
 
 	if (loading) return <p>Loading post details...</p>;
@@ -43,50 +43,77 @@ const CodeDetailsPage = () => {
 	if (!post) return <p>Post not found.</p>;
 
 	return (
-		<div className="container mt-5">
-		{/* Post Title */}
-		<h1 className="display-4 mb-3">{post.title}</h1>
-		
-		{/* Post level */}
-		<p className="lead mb-5">{post.level}</p>
-
-		{/* Post reviewDay */}
-		<p className="lead mb-5">{post.reviewDay}</p>
-
-		{/* Post description */}
-		<p className="lead mb-5">{post.description}</p>
-
-		{/* Post code */}
-		<p className="lead mb-5">{post.code}</p>
-
-		{/* Button Group */}
-		<div className="d-flex gap-3">
-			{/* Back Button */}
-			<button 
-				onClick={() => navigate('/CodeListPage')}
-				className="btn btn-secondary"
-			>
-				Back to Posts
-			</button>
+		<div className="container mt-5 position-relative">
+			{/* Star Rating in the Top-Right Corner */}
+            <div className="position-absolute top-0 end-0 p-2">
+                {[...Array(5)].map((_, index) => (
+                    <span key={index} style={{ color: index < post.level ? '#ffc107' : '#e4e5e9', fontSize: '3rem' }}>
+                        {index < post.level ? '★' : '☆'}
+                    </span>
+                ))}
+            </div>
 			
-			{/* Delete Button */}
-			<button 
-				onClick={handleDelete} 
-				className="btn btn-danger"
-			>
-				Delete
-			</button>
+			<dev className="mb-5">
+				{/* Post Title */}
+				<h1 className="display-4 mb-3">{post.title}</h1>
+				<p className="text-muted d-flex justify-content-between align-items-center">
+					<span>
+                        {post.memberDto.nickname} | {new Date(post.createDate).toLocaleString('ko-KR', { 
+                            year: 'numeric', month: '2-digit', day: '2-digit', 
+                            hour: '2-digit', minute: '2-digit', hour12: false 
+                        })}
+						<p className="lead mb-5">{post.reviewDay}</p>
+                    </span>
+					{/* Dropdown Button */}
+                    <div className="dropdown">
+                        <button 
+                            className="btn btn-secondary dropdown-toggle" 
+                            type="button" 
+                            id="dropdownMenuButton" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false"
+                        >
+                        </button>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <Link 
+                                    to={`/CodeUpdate/${post.id}`} 
+                                    state={{ post }} 
+                                    className="dropdown-item"
+                                >
+                                    수정
+                                </Link>
+                            </li>
+                            <li>
+                                <button 
+                                    onClick={handleDelete} 
+                                    className="dropdown-item"
+                                >
+                                    삭제
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+				</p>
+			</dev>
 
-			{/* Update Link */}
-			<Link 
-				to={`/CodeUpdatePage/${post.id}`}
-				state={{ post }}
-				className="btn btn-primary"
-			>
-				Update Post
-			</Link>
+			{/* Row for Description and Code */}
+            <div className="row mb-5">
+                {/* Description Column */}
+                <div className="col-md-6">
+                    <h5>Description</h5>
+                    <p className="lead">{post.description}</p>
+                </div>
+
+                {/* Code Column */}
+                <div className="col-md-6">
+                    <h5>Code</h5>
+                    <pre className="lead bg-light p-3 rounded" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+                        {post.code}
+                    </pre>
+                </div>
+            </div>
 		</div>
-	</div>
   	);
 };
 

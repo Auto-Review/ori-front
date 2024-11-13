@@ -6,12 +6,6 @@ import axiosInstance from '../auth/axiosInstance';
 const HomePage = () => {
 	const navigate = useNavigate();
 
-	const handleLogout = () => {
-		// Clear any stored tokens or user info
-		// Redirect back to the login page
-		navigate('/');
-	};
-
 	const handleTest = () => {
 		axiosInstance.get('/v1/api/auth/test')
 		.then((response) => {
@@ -63,7 +57,6 @@ const HomePage = () => {
 			<button onClick={handleReissue}>Reissue</button>
 			<button onClick={handleTILList}>TIL</button>
 			<button onClick={handleCodeList}>Code</button>
-			<button onClick={handleLogout}>Logout</button>
 		</div>
 	);
 };

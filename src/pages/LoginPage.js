@@ -7,27 +7,32 @@ const LoginPage = () => {
 
   	const navigate = useNavigate();
 
-  	const handleLoginSuccess = (credentialResponse) => {
-    const accessToken = credentialResponse.credential; // The Google access token
-    
-    // Send access token to the backend
-    axios.post(`${process.env.REACT_APP_API_URL}/v1/api/auth/token`, {
-      	accessToken: accessToken
-    })
-    .then(response => {
-		let accessToken = response.headers.get("accessToken");
-		let refreshToken = response.headers.get("refreshToken");
-		console.log("accessToken", accessToken);
-		console.log("refreshToken", refreshToken);
+  	const handleLoginSuccess = async (credentialResponse) => {
+		const accessToken = credentialResponse.credential; // The Google access token
+		
+		// Send access token to the backend
+		await axios.post(`${process.env.REACT_APP_API_URL}/v1/api/auth/token`, {
+			accessToken: accessToken
+		})
+		.then(response => {
+			console.log(response);
+			let accessToken = response.headers.get("accessToken");
+			let refreshToken = response.headers.get("refreshToken");
+			let email = response.data.data;
+			
+			console.log("accessToken", accessToken);
+			console.log("refreshToken", refreshToken);
+			console.log("email", email);
 
-		localStorage.setItem("accessToken", accessToken);
-		localStorage.setItem("refreshToken", refreshToken);
-    })
-    .catch(error => {
-      	console.error('Error:', error);
-    });
+			localStorage.setItem("accessToken", accessToken);
+			localStorage.setItem("refreshToken", refreshToken);
+			localStorage.setItem("email", email);
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
 
-    navigate('/HomePage');
+		window.location.href = '/Code';
   	};
 
   	// Handle login failure

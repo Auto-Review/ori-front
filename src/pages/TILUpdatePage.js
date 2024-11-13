@@ -14,17 +14,18 @@ const UpdatePostPage = () => {
     const initialPost = location.state?.post || null;
     
     const [title, setTitle] = useState(initialPost ? initialPost.title : '');
-    const [body, setBody] = useState(initialPost ? initialPost.content : '');
+    const [content, setContent] = useState(initialPost ? initialPost.content : '');
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
         try {
-        await axiosInstance.put('/v1/api/til/update', {
+        await axiosInstance.put('/v1/api/post/til/update', {
             id: id,
             title: title,
-            content: body,
+            content: content,
         });
         
         } catch (err) {
@@ -33,35 +34,30 @@ const UpdatePostPage = () => {
             setLoading(false);
         }
 
-        navigate('/TILListPage'); // Redirect to posts page after updating
+        navigate('/TIL'); // Redirect to posts page after updating
     };
 
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">Update Post</h1>
             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
-                <div className="mb-3">
-                    <label htmlFor="title" className="form-label">Title:</label>
+                <div className="mb-4">
                     <input
-                        id="title"
                         type="text"
-                        className="form-control"
+                        //TODO: 제목크기 설정이 안됨
+                        className="form-control border-0 h1" 
+                        style={{ minHeight: '2rem' }} 
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        required
                     />
                 </div>
-
-                <div className="mb-3">
-                    <label htmlFor="body" className="form-label">Body:</label>
+                <hr className="my-4" /> {/* 구분선 추가 */}
+                <div className="mb-4">
                     <textarea
-                        id="body"
-                        className="form-control"
-                        value={body}
-                        onChange={(e) => setBody(e.target.value)}
-                        required
-                        rows="5"
-                    />
+                        className="form-control border-0" // 외곽선 제거
+                        rows="10"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                    ></textarea>
                 </div>
 
                 <button type="submit" className="btn btn-primary" disabled={loading}>

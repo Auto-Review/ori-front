@@ -15,7 +15,7 @@ const TILSavePage = () => {
         setSuccess(false);
 
         try {
-            await axiosInstance.post('/v1/api/til/save', {
+            await axiosInstance.post('/v1/api/post/til/save', {
                 title: title,
                 content: body,
             });
@@ -25,7 +25,7 @@ const TILSavePage = () => {
         } catch (err) {
             setError(err.message);
         } 
-        navigate('/TILListPage');
+        navigate('/TIL');
     };
 
     return (
