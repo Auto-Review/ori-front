@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
-const TILListPage = () => {
+const MyTILListPage = () => {
     const [posts, setPosts] = useState([]);
     // TODO page, size 변경 로직 작성 
     const [page, setPage] = useState(0);
@@ -20,7 +20,7 @@ const TILListPage = () => {
                     params.keyword = keyword;
                 }
                 
-                const response = await axiosInstance.get(keyword ? 'v1/api/post/til/search' : '/v1/api/post/til/view-all', {params} )
+                const response = await axiosInstance.get(keyword ? 'v1/api/post/til/my/search' : '/v1/api/post/til/my/view-all', {params} )
                 console.log(response);
                 setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
@@ -101,4 +101,4 @@ const TILListPage = () => {
     );
 };
 
-export default TILListPage;
+export default MyTILListPage;

@@ -38,11 +38,46 @@ const Navbar = () => {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto">
-                        <li className="nav-item">
-                            <Link to="/" className="nav-link">Code</Link>
+                        <li className="nav-item dropdown">
+                            <a
+                                className="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                My
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <Link to="/" className="dropdown-item">Code</Link>
+                                </li>
+                                <li>
+                                    <Link to="/MyTIL" className="dropdown-item">TIL</Link>
+                                </li>
+                            </ul>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/TIL" className="nav-link">TIL</Link>
+                        
+                        <li className="nav-item dropdown">
+                            <a
+                                className="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                Others
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <Link to="/" className="dropdown-item">Code</Link>
+                                </li>
+                                <li>
+                                    <Link to="/TIL" className="dropdown-item">TIL</Link>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
 

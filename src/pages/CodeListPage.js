@@ -9,11 +9,10 @@ const CodeListPage = () => {
     const [size, setSize] = useState(9);
     const [totalPage, setTotalPage] = useState();
     const [keyword, setKeyword] = useState();
-    const [my, setMy] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchPosts = async (page, size, keyword, my) => {
+        const fetchPosts = async (page, size, keyword) => {
             const params = {page, size};
 
             try{
@@ -21,7 +20,7 @@ const CodeListPage = () => {
                     params.keyword = keyword;
                 }
 
-                const response = await axiosInstance.get(my ? (keyword ? 'v1/api/post/code/my/search' : '/v1/api/post/code/my/view-all') : (keyword ? 'v1/api/post/code/search' : '/v1/api/post/code/view-all'), {params} )
+                const response = await axiosInstance.get(keyword ? 'v1/api/post/code/search' : '/v1/api/post/code/view-all', {params} )
                 console.log(response);
                 setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
@@ -30,12 +29,8 @@ const CodeListPage = () => {
             }
         }
 
-        fetchPosts(page, size, keyword, my);
-    }, [page, size, keyword, my]); 
-
-    const toggleShowMode = () => {
-		setMy((prev) => !prev);
-	}
+        fetchPosts(page, size, keyword);
+    }, [page, size, keyword]); 
 
     const handleNextPage = () => {
         if (page + 1 < totalPage) {
@@ -66,9 +61,6 @@ const CodeListPage = () => {
             {/* Header with Title and Write Button */}
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h1>Code</h1>
-                <button onClick={toggleShowMode} className="btn btn-primary">
-                    {my ? 'My' : 'All'}
-                </button>
             </div>
 
             {/* Search Input */}
