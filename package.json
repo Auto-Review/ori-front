@@ -10,6 +10,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "env-cmd": "^10.1.0",
+    "firebase": "^11.0.1",
     "jwt-decode": "^4.0.0",
     "popper.js": "^1.16.1",
     "react": "^18.3.1",
