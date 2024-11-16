@@ -10,9 +10,7 @@ const Navbar = () => {
     }
 
     const handleLogout = () => {
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('refreshToken');
-        localStorage.removeItem('email');
+        localStorage.clear();
         setEmail(null);
         alert("로그아웃 되었습니다");
 		window.location.href = '/Login';
