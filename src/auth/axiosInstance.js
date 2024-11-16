@@ -61,13 +61,13 @@ axiosInstance.interceptors.response.use(
             } catch(error){
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                window.location.href = '/';
+                window.location.href = '/Login';
                 return Promise.reject(error);
             }
         } else if(error.response && (error.response.status === 401)){
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            window.location.href = '/';
+            window.location.href = '/Login';
             return Promise.reject(error);
         }
     }
