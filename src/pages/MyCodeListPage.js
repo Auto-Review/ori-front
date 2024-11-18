@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
-const TILListPage = () => {
+const MyCodeListPage = () => {
     const [posts, setPosts] = useState([]);
     // TODO page, size 변경 로직 작성 
     const [page, setPage] = useState(0);
@@ -19,8 +19,8 @@ const TILListPage = () => {
                 if(keyword){
                     params.keyword = keyword;
                 }
-                
-                const response = await axiosInstance.get(keyword ? 'v1/api/post/til/search' : '/v1/api/post/til/view-all', {params} )
+
+                const response = await axiosInstance.get(keyword ? 'v1/api/post/code/my/search' : '/v1/api/post/code/my/view-all', {params} )
                 console.log(response);
                 setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
@@ -58,9 +58,9 @@ const TILListPage = () => {
 
     return (
         <div className="container mt-4">
-            {/* Header with Title and Write Toggle */}
+            {/* Header with Title and Write Button */}
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h1>TIL</h1>
+                <h1>Code</h1>
             </div>
 
             {/* Search Input */}
@@ -76,11 +76,21 @@ const TILListPage = () => {
                 {posts &&
                     posts.map((post) => (
                         <div key={post.id} className="col-12 col-md-6 col-lg-4 mb-4">
-                            <Link to={`/TILDetails/${post.id}`} className="text-decoration-none">
-                                <div className="card h-100 shadow-sm">
+                            <Link to={`/CodeDetails/${post.id}`} className="text-decoration-none">
+                                <div className="card h-100 shadow-sm position-relative">
+                                    {/* Star Rating in the Top-Right Corner */}
+                                    <div className="position-absolute top-0 end-0 p-2">
+                                        {[...Array(5)].map((_, index) => (
+                                            <span key={index} style={{ color: index < post.level ? '#ffc107' : '#e4e5e9' }}>
+                                                {index < post.level ? '★' : '☆'}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    
                                     <div className="card-body">
                                         <h5 className="card-title">{post.title}</h5>
-                                        <p className="card-text text-muted">{post.content}</p>
+                                        <p className="card-text text-muted">{post.description}</p>
+                                        <p className="card-text text-muted">{post.member.nickname}</p>
                                     </div>
                                 </div>
                             </Link>
@@ -101,4 +111,4 @@ const TILListPage = () => {
     );
 };
 
-export default TILListPage;
+export default MyCodeListPage;
