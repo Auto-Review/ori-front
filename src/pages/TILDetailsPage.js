@@ -13,7 +13,7 @@ const TILDetailsPage = () => {
 	// Fetch post details from the backend API
 	const fetchPost = async () => {
 		try {
-			const response = await axiosInstance.get(`/v1/api/post/til/view/${id}`);
+			const response = await axiosInstance.get(`/v1/api/post/til/${id}`);
 			setPost(response.data.data);
 			console.log(response);
 		} catch (err) {
@@ -29,7 +29,7 @@ const TILDetailsPage = () => {
 
 	const handleDelete = async () => {
 		try{
-			const response = await axiosInstance.delete(`/v1/api/post/til/delete/${id}`)
+			const response = await axiosInstance.delete(`/v1/api/post/til/${id}`)
 		} catch (err) {
 			setError('Failed to load post details');
 		} finally {
