@@ -7,23 +7,28 @@ const TILDetailsPage = () => {
 	const [post, setPost] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [email, setEmail] = useState(localStorage.getItem('email'));
+	const [isBookmarked, setIsBookmarked] = useState(null);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-	// Fetch post details from the backend API
-	const fetchPost = async () => {
-		try {
-			const response = await axiosInstance.get(`/v1/api/post/til/${id}`);
-			setPost(response.data.data);
-			console.log(response);
-		} catch (err) {
-			setError('Failed to load post details');
-		} finally {
-			setLoading(false);
-		}
-	};
+		// Fetch post details from the backend API
+		const fetchPost = async () => {
+			try {
+				const response = await axiosInstance.get(email ? `/v1/api/post/til/own/${id}` : `/v1/api/post/til/detail/${id}`);
+				setPost(response.data.data);
+				if(email){
+					setIsBookmarked(response.data.data.isBookmarked);
+				}
+				console.log(response);
+			} catch (err) {
+				setError('Failed to load post details');
+			} finally {
+				setLoading(false);
+			}
+		};
 
-	fetchPost();
+		fetchPost();
 	}, [id]);
 
 
@@ -36,6 +41,23 @@ const TILDetailsPage = () => {
 			setLoading(false);
 		}
 		navigate('/TIL');
+	}
+
+	const handleScrapToggle = async () => {
+		if(email){
+			if(isBookmarked !== null){
+				setIsBookmarked(!isBookmarked);
+			}
+			else{
+				setIsBookmarked(true);
+			}
+			await axiosInstance.post('/v1/api/post/til/bookmark', {
+				postId: id
+			})		
+		}
+		else{
+			navigate("/Login");
+		}
 	}
 
 	if (loading) return <p>Loading post details...</p>;
@@ -84,6 +106,15 @@ const TILDetailsPage = () => {
                             </li>
                         </ul>
                     </div>
+
+					<div className="d-flex justify-content-end">
+						<button
+							className={`btn ${isBookmarked ? "btn-success" : "btn-outline-primary"}`}
+							onClick={handleScrapToggle}
+						>
+							{isBookmarked ? "스크랩 완료" : "스크랩"}
+						</button>
+                	</div>
                 </p>
 			</div>
 
