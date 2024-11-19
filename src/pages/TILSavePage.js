@@ -15,7 +15,7 @@ const TILSavePage = () => {
         setSuccess(false);
 
         try {
-            await axiosInstance.post('/v1/api/post/til/save', {
+            await axiosInstance.post('/v1/api/post/til', {
                 title: title,
                 content: body,
             });

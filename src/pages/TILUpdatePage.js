@@ -22,7 +22,7 @@ const UpdatePostPage = () => {
         setError(null);
 
         try {
-        await axiosInstance.put('/v1/api/post/til/update', {
+        await axiosInstance.put('/v1/api/post/til', {
             id: id,
             title: title,
             content: content,

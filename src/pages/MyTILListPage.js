@@ -20,7 +20,7 @@ const MyTILListPage = () => {
                     params.keyword = keyword;
                 }
                 
-                const response = await axiosInstance.get(keyword ? 'v1/api/post/til/my/search' : '/v1/api/post/til/my/view-all', {params} )
+                const response = await axiosInstance.get(keyword ? 'v1/api/post/til/own/search' : '/v1/api/post/til/own', {params} )
                 console.log(response);
                 setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);
