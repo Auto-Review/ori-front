@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
 const MyCodeListPage = () => {
@@ -20,7 +20,7 @@ const MyCodeListPage = () => {
                     params.keyword = keyword;
                 }
 
-                const response = await axiosInstance.get(keyword ? 'v1/api/post/code/my/search' : '/v1/api/post/code/my/view-all', {params} )
+                const response = await axiosInstance.get(keyword ? 'v1/api/post/code/own/search' : '/v1/api/post/code/own', {params} )
                 console.log(response);
                 setPosts(response.data.data.dtoList);
                 setTotalPage(response.data.data.totalPage);

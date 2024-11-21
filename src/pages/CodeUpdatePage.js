@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import axiosInstance from '../auth/axiosInstance';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 
 const CodeUpdatePage = () => {
     const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ const CodeUpdatePage = () => {
         setError(null);
 
         try {
-            await axiosInstance.put('/v1/api/post/code/update', {
+            await axiosInstance.put('/v1/api/post/code', {
                 id: id,
                 title: title,
                 level: level,

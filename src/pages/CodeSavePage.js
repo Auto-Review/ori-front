@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
 const CodeSavePage = () => {
@@ -18,13 +18,21 @@ const CodeSavePage = () => {
         setSuccess(false);
 
         try {
-            await axiosInstance.post('/v1/api/post/code/save', {
+            await axiosInstance.post('/v1/api/post/code', {
                 title: title,
                 level: level,
                 reviewDay: reviewDay,
                 description: description,
                 code: code,
             });
+
+            if(reviewDay !== "") {
+                console.log("reviewDay : {}",reviewDay)
+                await axiosInstance.post('/v1/api/notification', {
+                    content: title,
+                    reviewDay: reviewDay,
+                });
+            }
             setSuccess(true);
         } catch (err) {
             setError(err.message);
@@ -66,7 +74,6 @@ const CodeSavePage = () => {
                         className="form-control"
                         value={reviewDay.substring(0, 10)} // datetime-local 형식에 맞게 변환
                         onChange={(e) => setReviewDay(e.target.value)}
-                        required
                     />
                 </div>
                 <div className="mb-3">
