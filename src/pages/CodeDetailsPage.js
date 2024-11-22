@@ -27,7 +27,7 @@ const CodeDetailsPage = () => {
 
     const handleDelete = async () => {
         try {
-            await axiosInstance.delete(`/v1/api/post/code/delete/${id}`);
+            await axiosInstance.delete(`/v1/api/post/code/${id}`);
             navigate('/Code');
         } catch (err) {
             setError('Failed to delete post');

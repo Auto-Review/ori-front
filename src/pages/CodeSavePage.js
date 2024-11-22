@@ -18,7 +18,7 @@ const CodeSavePage = () => {
         setSuccess(false);
 
         try {
-            await axiosInstance.post('/v1/api/post/code', {
+            let response =  await axiosInstance.post('/v1/api/post/code', {
                 title: title,
                 level: level,
                 reviewDay: reviewDay,
@@ -29,6 +29,7 @@ const CodeSavePage = () => {
             if(reviewDay !== "") {
                 console.log("reviewDay : {}",reviewDay)
                 await axiosInstance.post('/v1/api/notification', {
+                    id: response.data.data,
                     content: title,
                     reviewDay: reviewDay,
                 });
