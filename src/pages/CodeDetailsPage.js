@@ -96,18 +96,18 @@ const CodeDetailsPage = () => {
 
             {/* Row for Description and Code */}
             <div className="row mb-5">
-                {/* Description Column */}
-                <div className="col-md-6">
-                    <h5>Description</h5>
-                    <p className="lead">{post.description}</p>
-                </div>
-
                 {/* Code Column */}
                 <div className="col-md-6">
                     <h5>Code</h5>
                     <pre className="lead bg-light p-3 rounded" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
                         {post.code}
                     </pre>
+                </div>
+
+                {/* Description Column */}
+                <div className="col-md-6">
+                    <h5>Description</h5>
+                    <p className="lead">{post.description}</p>
                 </div>
             </div>
         </div>

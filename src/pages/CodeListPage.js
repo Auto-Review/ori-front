@@ -76,7 +76,7 @@ const CodeListPage = () => {
                 {posts &&
                     posts.map((post) => (
                         <div key={post.id} className="col-12 col-md-6 col-lg-4 mb-4">
-                            <Link to={`/codeDetails/${post.id}`} className="text-decoration-none">
+                            <Link to={`/CodeDetails/${post.id}`} className="text-decoration-none">
                                 <div className="card h-100 shadow-sm position-relative">
                                     {/* Star Rating in the Top-Right Corner */}
                                     <div className="position-absolute top-0 end-0 p-2">
