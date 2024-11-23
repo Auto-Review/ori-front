@@ -66,7 +66,7 @@ const CodeSavePage = () => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="제목을 입력해주세요" // 플레이스홀더 텍스트 추가
-                        style={{ fontSize: '1.5rem', width: '800px' }}
+                        style={{ fontSize: '2rem', width: '800px', background: 'transparent', borderBottom: '1px solid #ccc' }}
                         required
                     />
                 </div>
@@ -108,7 +108,14 @@ const CodeSavePage = () => {
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                             required
-                            style={{ height: '200px' }} // 동일한 높이 적용
+                            style={{
+                                height: 'auto',
+                                minHeight: '300px',
+                                backgroundColor: '#f0f0f0',
+                                overflow: 'hidden',
+                                color: '#333', // 텍스트 색상
+                                fontFamily: 'Arial, sans-serif', // 폰트 패밀리
+                            }} // 배경색 회색으로 설정
                         />
                     </div>
 
@@ -120,7 +127,13 @@ const CodeSavePage = () => {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             required
-                            style={{ height: '200px' }} // 동일한 높이 적용
+                            style={{
+                                height: 'auto', // 자동 높이 조절
+                                minHeight: '300px', // 최소 높이 설정
+                                backgroundColor: 'white',
+                                color: '#333', // 텍스트 색상
+                                fontFamily: 'Arial, sans-serif', // 폰트 패밀리
+                            }} // 배경색 흰색으로 설정
                         />
                     </div>
                 </div>
