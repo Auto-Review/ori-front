@@ -1,130 +1,173 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../auth/axiosInstance';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import axiosInstance from '../auth/axiosInstance';
 
 const CodeUpdatePage = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const { id } = useParams(); // Get post ID from URL parameters
+    const { id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Use post data from route state if available, otherwise set to null
     const initialPost = location.state?.post || null;
-    
+
     const [title, setTitle] = useState(initialPost ? initialPost.title : '');
-    const [level, setLevel] = useState(initialPost ? initialPost.level : '');
+    const [level, setLevel] = useState(initialPost ? initialPost.level : 0);
+    const [isReviewDayEnabled, setIsReviewDayEnabled] = useState(initialPost ? !!initialPost.reviewDay : false);
     const [reviewDay, setReviewDay] = useState(initialPost ? initialPost.reviewDay : '');
     const [description, setDescription] = useState(initialPost ? initialPost.description : '');
     const [code, setCode] = useState(initialPost ? initialPost.code : '');
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const codeTextarea = document.getElementById('code');
+        if (codeTextarea) {
+            codeTextarea.style.height = 'auto'; // Reset height
+            codeTextarea.style.height = `${codeTextarea.scrollHeight}px`; // Set height based on scroll height
+        }
+
+        const descriptionTextarea = document.getElementById('description');
+        if (descriptionTextarea) {
+            descriptionTextarea.style.height = 'auto'; // Reset height
+            descriptionTextarea.style.height = `${descriptionTextarea.scrollHeight}px`; // Set height based on scroll height
+        }
+    }, [code, description]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError(null);
 
         try {
-            await axiosInstance.put('/v1/api/post/code/update', {
-                id: id,
-                title: title,
-                level: level,
-                reviewDay: reviewDay,
-                description: description,
-                code: code,
+            await axiosInstance.put(`/v1/api/post/code`, {
+                id,
+                title,
+                level,
+                reviewDay: isReviewDayEnabled ? reviewDay : '',
+                description,
+                code,
             });
-        
-        } catch (err) {
-            setError('Failed to update post');
-        } finally {
-            setLoading(false);
-        }
 
-        navigate('/Code'); // Redirect to posts page after updating
+            if (isReviewDayEnabled && reviewDay !== '') {
+                await axiosInstance.post('/v1/api/notification', {
+                    id: id,
+                    content: title,
+                    reviewDay: reviewDay,
+                });
+            }
+
+            navigate('/Code');
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     return (
-        <div className="container mt-5">
-            <h1 className="mb-4">Update Post</h1>
-            <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+        <div className="container mt-5 position-relative">
+            <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                <input
-                    type="text"
-                    className="form-control border-0"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                </div>
-
-                <hr className="my-4" />
-
-                
-                <div className="d-flex align-items-center mb-3">
+                    <label htmlFor="title" className="form-label" style={{ fontSize: '1.5rem' }}></label>
                     <input
-                        //TODO: level 변경점을 생각해야함
-                        id="level"  
-                        type="number"
-                        className="form-control border-0 me-2" // 오른쪽 여백 추가
-                        value={level}
-                        onChange={(e) => setLevel(Number(e.target.value))}
+                        id="title"
+                        type="text"
+                        className="form-control form-control-lg border-0"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="제목을 입력해주세요"
+                        style={{
+                            fontSize: '3rem',
+                            width: '800px',
+                            background: 'transparent',
+                            borderBottom: '1px solid #ccc',
+                            color: '#333', // 텍스트 색상
+                            fontFamily: 'Arial, sans-serif', // 폰트 패밀리
+                        }}
                         required
                     />
-                    <div className="flex-grow-1">
+                    {/* Star Rating positioned at the end of the title input */}
+                    <div className="position-absolute top-0 end-0 p-2">
+                        {[...Array(5)].map((_, index) => (
+                            <span
+                                key={index}
+                                onClick={() => setLevel(index + 1)}
+                                style={{
+                                    cursor: 'pointer',
+                                    color: index < level ? '#ffc107' : '#e4e5e9',
+                                    fontSize: '3rem'
+                                }} // 별 크기
+                            >
+                                {index < level ? '★' : '☆'}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Review Day Toggle Switch and Date Input */}
+                <div className="mb-3 d-flex align-items-center">
+                    <label className="form-label me-3">Review Day:</label>
+                    <div className="form-check form-switch me-3">
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="reviewDayToggle"
+                            checked={isReviewDayEnabled}
+                            onChange={() => setIsReviewDayEnabled(!isReviewDayEnabled)}
+                        />
+                        <label className="form-check-label" htmlFor="reviewDayToggle">{isReviewDayEnabled ? 'On' : 'Off'}</label>
+                    </div>
+
+                    {isReviewDayEnabled && (
                         <input
                             id="reviewDay"
                             type="date"
                             className="form-control"
-                            value={reviewDay.substring(0, 10)}
+                            value={reviewDay}
                             onChange={(e) => setReviewDay(e.target.value)}
-                            required
+                            style={{ width: '200px' }}
                         />
-                    </div>
+                    )}
                 </div>
 
-                {/* Row for Description and Code */}
+                {/* Row for Code and Description */}
                 <div className="row mb-5">
-                    {/* Description Column */}
-                    <div className="col-md-6">
-                        <h5>Description</h5>
-                        <textarea
-                            id="description"
-                            className="form-control lead bg-light p-3 rounded border-0"
-                            style={{ minHeight: '100px', whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    {/* Code Column */}
                     <div className="col-md-6">
                         <h5>Code</h5>
-                        {/* <div
-                            contentEditable
-                            className="lead bg-light p-3 rounded"
-                            style={{ minHeight: '100px', whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
-                            onChange={(e) => setCode(e.target.value)}
-                            suppressContentEditableWarning={true}
-                        >
-                            {code}
-                        </div> */}
                         <textarea
                             id="code"
-                            className="form-control lead bg-light p-3 rounded border-0"
-                            style={{ minHeight: '100px', whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                            className="form-control"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                             required
+                            style={{
+                                height: 'auto',
+                                minHeight: '300px',
+                                backgroundColor: '#f0f0f0',
+                                overflow: 'hidden',
+                                color: '#333', // 텍스트 색상
+                                fontFamily: 'Arial, sans-serif', // 폰트 패밀리
+                            }} // 배경색 회색으로 설정
+                        />
+                    </div>
+
+                    <div className="col-md-6">
+                        <h5>Description</h5>
+                        <textarea
+                            id="description" // ID 추가
+                            className="form-control border-0" // 테두리 없애기
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                            style={{
+                                height: 'auto', // 자동 높이 조절
+                                minHeight: '300px', // 최소 높이 설정
+                                backgroundColor: 'white',
+                                color: '#333', // 텍스트 색상
+                                fontFamily: 'Arial, sans-serif', // 폰트 패밀리
+                            }} // 배경색 흰색으로 설정
                         />
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? 'Updating Post...' : 'Update Post'}
-                </button>
+                <button type="submit" className="btn btn-primary">Update</button>
+                {error && <p className="text-danger mt-3">Error: {error}</p>}
             </form>
-
-            {error && <p className="text-danger mt-3">Error: {error}</p>}
         </div>
     );
 };

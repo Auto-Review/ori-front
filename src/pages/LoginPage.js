@@ -39,7 +39,7 @@ const LoginPage = () => {
 				console.log('push FCM Token:', fcmToken);
 
 				// FCM 토큰과 사용자 정보 서버에 전송
-				await axiosInstance.post(`${process.env.REACT_APP_API_URL}/v1/api/fcm/save`, {
+				await axiosInstance.post(`${process.env.REACT_APP_API_URL}/v1/api/fcm`, {
 					fcmToken: fcmToken,
 				});
 				console.log('FCM Token saved successfully');
