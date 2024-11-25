@@ -36,13 +36,23 @@ const CodeUpdatePage = () => {
         setError(null);
 
         try {
-            await axiosInstance.put(`/v1/api/post/code/${id}`, {
+            await axiosInstance.put(`/v1/api/post/code`, {
+                id,
                 title,
                 level,
                 reviewDay: isReviewDayEnabled ? reviewDay : '',
                 description,
                 code,
             });
+
+            if (isReviewDayEnabled && reviewDay !== '') {
+                await axiosInstance.post('/v1/api/notification', {
+                    id: id,
+                    content: title,
+                    reviewDay: reviewDay,
+                });
+            }
+
             navigate('/Code');
         } catch (err) {
             setError(err.message);
