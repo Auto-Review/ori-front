@@ -12,11 +12,13 @@ import MyTILListPage from './pages/MyTILListPage';
 import TILSavePage from './pages/TILSavePage';
 import TILUpdatePage from './pages/TILUpdatePage';
 import TILDetailsPage from './pages/TILDetailsPage';
+import BookmarkTILPage from './pages/BookmarkTILPage';
 import CodeListPage from './pages/CodeListPage';
 import MyCodeListPage from './pages/MyCodeListPage';
 import CodeSavePage from './pages/CodeSavePage';
 import CodeUpdatePage from './pages/CodeUpdatePage';
 import CodeDetailsPage from './pages/CodeDetailsPage';
+import MyPage from './pages/MyPage';
 import Navbar from './pages/Navbar';
 import {Container} from 'react-bootstrap';
 
@@ -56,12 +58,14 @@ function MemberLayout(){
         <Container>
           <Routes>
             <Route path="/" element={<CodeListPage />} />
+            <Route path="/My" element={<MyPage />} />
             <Route path="/Home" element={<HomePage />} />
             <Route path="/TIL" element={<TILListPage />} />
             <Route path="/MyTIL" element={<MyTILListPage />} />
             <Route path="/TILSave" element={<TILSavePage />} />
             <Route path="/TILUpdate/:id" element={<TILUpdatePage />} />
             <Route path="/TILDetails/:id" element={<TILDetailsPage />} />
+            <Route path="/BookmarkTIL" element={<BookmarkTILPage />} />
             <Route path="/Code" element={<CodeListPage />} />
             <Route path="/MyCode" element={<MyCodeListPage />} />
             <Route path="/CodeSave" element={<CodeSavePage />} />
