@@ -19,6 +19,7 @@ import CodeSavePage from './pages/CodeSavePage';
 import CodeUpdatePage from './pages/CodeUpdatePage';
 import CodeDetailsPage from './pages/CodeDetailsPage';
 import MyPage from './pages/MyPage';
+import ProfileUpdatePage from './pages/ProfileUpdatePage';
 import Navbar from './pages/Navbar';
 import {Container} from 'react-bootstrap';
 
@@ -66,6 +67,7 @@ function MemberLayout(){
             <Route path="/TILUpdate/:id" element={<TILUpdatePage />} />
             <Route path="/TILDetails/:id" element={<TILDetailsPage />} />
             <Route path="/BookmarkTIL" element={<BookmarkTILPage />} />
+            <Route path="/profileUpdate" element={<ProfileUpdatePage />} />
             <Route path="/Code" element={<CodeListPage />} />
             <Route path="/MyCode" element={<MyCodeListPage />} />
             <Route path="/CodeSave" element={<CodeSavePage />} />

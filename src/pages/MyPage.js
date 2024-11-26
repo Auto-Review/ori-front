@@ -9,7 +9,7 @@ const MyPage = () => {
 		// Fetch post details from the backend API
 		const fetchProfile = async () => {
 			try {
-				const response = await axiosInstance.get('/v1/api/mypage/info');
+				const response = await axiosInstance.get('/v1/api/profile/info');
 				setProfile(response.data.data);
                 console.log(response);
 			} catch (err) {
