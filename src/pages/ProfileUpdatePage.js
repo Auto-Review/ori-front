@@ -40,10 +40,10 @@ const ProfileUpdatePage = () => {
                 nickname: nickname
             });
             setProfile(response.data.data); // 업데이트된 프로필로 상태 변경
-            alert('닉네임이 성공적으로 변경되었습니다.');
+            alert('프로필 성공적으로 변경되었습니다.');
         } catch (err) {
             console.error(err);
-            setError('닉네임 변경에 실패했습니다.');
+            setError('프로필 변경에 실패했습니다.');
         }
 
         navigate("/My");
