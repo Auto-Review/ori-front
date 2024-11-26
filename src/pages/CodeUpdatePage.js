@@ -14,6 +14,7 @@ const CodeUpdatePage = () => {
     const [isReviewDayEnabled, setIsReviewDayEnabled] = useState(initialPost ? !!initialPost.reviewDay : false);
     const [reviewDay, setReviewDay] = useState(initialPost ? initialPost.reviewDay : '');
     const [description, setDescription] = useState(initialPost ? initialPost.description : '');
+    const [language, setLanguage] = useState(initialPost ? initialPost.language : '');
     const [code, setCode] = useState(initialPost ? initialPost.code : '');
     const [error, setError] = useState(null);
 
@@ -42,6 +43,7 @@ const CodeUpdatePage = () => {
                 level,
                 reviewDay: isReviewDayEnabled ? reviewDay : '',
                 description,
+                language,
                 code,
             });
 
@@ -123,6 +125,28 @@ const CodeUpdatePage = () => {
                             style={{ width: '200px' }}
                         />
                     )}
+                </div>
+
+                {/* Language Selection */}
+                <div className="mb-4">
+                    <label htmlFor="language" className="form-label">Select Language:</label>
+                    <select
+                        id="language"
+                        className="form-select"
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        style={{ width: '300px' }} // 드롭다운 길이 조정
+                    >
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                        <option value="cpp">C++</option>
+                        <option value="c">C</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="go">Go</option>
+                        {/* 필요한 언어를 추가하세요 */}
+                    </select>
                 </div>
 
                 {/* Row for Code and Description */}
