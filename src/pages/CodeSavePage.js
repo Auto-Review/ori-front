@@ -9,6 +9,7 @@ const CodeSavePage = () => {
     const [reviewDay, setReviewDay] = useState('');
     const [description, setDescription] = useState('');
     const [code, setCode] = useState('');
+    const [language, setLanguage] = useState('javascript'); // 초기 언어 설정
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
@@ -24,6 +25,7 @@ const CodeSavePage = () => {
                 level,
                 reviewDay: isReviewDayEnabled ? reviewDay : '', // 토글에 따라 리뷰 데이 설정
                 description,
+                language,
                 code,
             });
 
@@ -38,6 +40,24 @@ const CodeSavePage = () => {
             navigate('/Code');
         } catch (err) {
             setError(err.message);
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Tab') {
+            e.preventDefault(); // 기본 동작 방지
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
+
+            // 현재의 코드 값을 가져와서 Tab 추가
+            const newCode = code.substring(0, start) + '    ' + code.substring(end); // 4칸 공백 추가
+            setCode(newCode);
+
+            // 커서를 Tab 추가 후 위치로 이동
+            setTimeout(() => {
+                e.target.selectionStart = e.target.selectionEnd = start + 4;
+                e.target.focus(); // 포커스 유지
+            }, 0);
         }
     };
 
@@ -98,6 +118,28 @@ const CodeSavePage = () => {
                     )}
                 </div>
 
+                {/* Language Selection */}
+                <div className="mb-4">
+                    <label htmlFor="language" className="form-label">Select Language:</label>
+                    <select
+                        id="language"
+                        className="form-select"
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        style={{ width: '300px' }} // 드롭다운 길이 조정
+                    >
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                        <option value="cpp">C++</option>
+                        <option value="c">C</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="go">Go</option>
+                        {/* 필요한 언어를 추가하세요 */}
+                    </select>
+                </div>
+
                 {/* Row for Code and Description */}
                 <div className="row mb-5">
                     {/* Code Column */}
@@ -107,14 +149,14 @@ const CodeSavePage = () => {
                             className="form-control"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
+                            onKeyDown={handleKeyDown} // Tab 키 이벤트 처리
                             required
                             style={{
                                 height: 'auto',
                                 minHeight: '300px',
                                 backgroundColor: '#f0f0f0',
-                                overflow: 'hidden',
-                                color: '#333', // 텍스트 색상
-                                fontFamily: 'Arial, sans-serif', // 폰트 패밀리
+                                color: '#333',
+                                fontFamily: 'Arial, sans-serif',
                             }} // 배경색 회색으로 설정
                         />
                     </div>
