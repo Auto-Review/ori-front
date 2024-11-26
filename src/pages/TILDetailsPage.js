@@ -69,43 +69,46 @@ const TILDetailsPage = () => {
 			{/* Title, Nickname, and Creation Date Combined */}
 			<div className="mb-5">
 				<h1 className="display-4">{post.title}</h1>
-				<p className="text-muted d-flex justify-content-between align-items-center">
-                    <span>
-                        {post.member.nickname} | {new Date(post.createDate).toLocaleString('ko-KR', { 
-                            year: 'numeric', month: '2-digit', day: '2-digit', 
-                            hour: '2-digit', minute: '2-digit', hour12: false 
-                        })}
-                    </span>
-                    {/* Dropdown Button */}
-                    <div className="dropdown">
-                        <button 
-                            className="btn btn-secondary dropdown-toggle" 
-                            type="button" 
-                            id="dropdownMenuButton" 
-                            data-bs-toggle="dropdown" 
-                            aria-expanded="false"
-                        >
-                        </button>
-                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <Link 
-                                    to={`/TILUpdate/${post.id}`} 
-                                    state={{ post }} 
-                                    className="dropdown-item"
-                                >
-                                    수정
-                                </Link>
-                            </li>
-                            <li>
-                                <button 
-                                    onClick={handleDelete} 
-                                    className="dropdown-item"
-                                >
-                                    삭제
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+				<div className="d-flex justify-content-between align-items-center">
+					<div className="d-flex align-items-center">
+                        <span className="text-muted me-2">
+                            {post.member.nickname} | {new Date(post.createDate).toLocaleString('ko-KR', {
+							year: 'numeric', month: '2-digit', day: '2-digit',
+							hour: '2-digit', minute: '2-digit', hour12: false
+						})}
+                        </span>
+
+						{/* Dropdown Button */}
+						<div className="dropdown">
+							<button
+								className="btn btn-secondary dropdown-toggle"
+								type="button"
+								id="dropdownMenuButton"
+								data-bs-toggle="dropdown"
+								aria-expanded="false"
+							>
+							</button>
+							<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<li>
+									<Link
+										to={`/TILUpdate/${post.id}`}
+										state={{ post }}
+										className="dropdown-item"
+									>
+										수정
+									</Link>
+								</li>
+								<li>
+									<button
+										onClick={handleDelete}
+										className="dropdown-item"
+									>
+										삭제
+									</button>
+								</li>
+							</ul>
+						</div>
+					</div>
 
 					<div className="d-flex justify-content-end">
 						<button
@@ -114,8 +117,8 @@ const TILDetailsPage = () => {
 						>
 							{isBookmarked ? "스크랩 완료" : "스크랩"}
 						</button>
-                	</div>
-                </p>
+					</div>
+				</div>
 			</div>
 
 			{/* Post Content */}

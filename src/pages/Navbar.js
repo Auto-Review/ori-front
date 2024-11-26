@@ -49,7 +49,7 @@ const Navbar = () => {
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <Link to="/" className="dropdown-item">Code</Link>
+                                    <Link to="/MyCode" className="dropdown-item">Code</Link>
                                 </li>
                                 <li>
                                     <Link to="/MyTIL" className="dropdown-item">TIL</Link>
@@ -84,7 +84,7 @@ const Navbar = () => {
                         <li className="nav-item">
                             {email ? (
                                 <span className="navbar-text me-3">
-                                    {email}
+                                    <Link to="/My"> {email} </Link>
                                 </span>
                             ) : (
                                 <button 

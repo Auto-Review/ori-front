@@ -29,11 +29,10 @@ const TILSavePage = () => {
     };
 
     return (
-        <div className="container mt-5" style={{ maxWidth: '500px' }}>
+        <div className="container mt-5">
             <h1 className="text-center mb-4">Create a New Post</h1>
             <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="title" className="form-label">제목:</label>
+                <div className="mb-4">
                     <input
                         id="title"
                         type="text"
@@ -43,9 +42,9 @@ const TILSavePage = () => {
                         className="form-control"
                     />
                 </div>
+                <hr className="my-4" />
 
-                <div className="mb-3">
-                    <label htmlFor="body" className="form-label">본문:</label>
+                <div className="mb-4">
                     <textarea
                         id="body"
                         value={body}
