@@ -342,4 +342,4 @@ const CodeDetailsPage = () => {
     );
 };
 
-export default CodeDetailsPage
+export default CodeDetailsPage;
