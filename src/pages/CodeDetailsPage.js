@@ -15,6 +15,7 @@ const CodeDetailsPage = () => {
     const [showReviewModal, setShowReviewModal] = useState(false); // 리뷰 보기 모달 상태
     const [showReviewListModal, setShowReviewListModal] = useState(false); // 리뷰 보기 모달 상태
     const [selectedReview, setSelectedReview] = useState(null); // 선택된 리뷰
+    const [showUpdateModal, setShowUpdateModal] = useState(false); // 업데이트 모달 상태
     const navigate = useNavigate();
 
     // 포맷팅 함수
@@ -100,8 +101,13 @@ const CodeDetailsPage = () => {
     };
 
     const handleUpdateReview = async (review) => {
+        console.log(review);
+        console.log(review.id);
+        console.log(review.code);
+        console.log(review.description);
+
         try {
-            const reviewResponse = await axiosInstance.put(`/v1/api/review`, {
+            await axiosInstance.put(`/v1/api/review`, {
                 id: review.id,
                 email: localStorage.getItem('email'),
                 code: review.code,
@@ -134,7 +140,6 @@ const CodeDetailsPage = () => {
     const closeReviewDetail = () => {
         setSelectedReview(null); // 리뷰 상세 모달 닫기
     };
-
 
     if (loading) return <p>Loading post details...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -195,8 +200,12 @@ const CodeDetailsPage = () => {
                         </div>
 
                         {/* 리뷰 작성 및 보기 버튼 */}
-                        <button className="btn btn-primary me-2" onClick={() => setShowModal(true)}>리뷰 작성</button>
-                        <button className="btn btn-info" onClick={handleShowReviews}>리뷰 목록</button>
+                        {post.memberDto.email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
+                            <>
+                                <button className="btn btn-primary me-2" onClick={() => setShowModal(true)}>리뷰 작성</button>
+                                <button className="btn btn-info" onClick={handleShowReviews}>리뷰 목록</button>
+                            </>
+                        )}
                     </div>
                 </div>
                 <p className="lead mb-5">{post.reviewDay}</p>
@@ -297,47 +306,96 @@ const CodeDetailsPage = () => {
             )}
 
             {showReviewModal && selectedReview && (
-                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '10%', left: '5%', width: '90%', zIndex: 1050 }}>
-                    <div className="modal-dialog" style={{ maxWidth: '1200px', width: '100%' }}>
-                        <div className="modal-content">
+                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '20%', left: '5%', width: '90%', zIndex: 1050 }}>
+                    <div className="modal-dialog" style={{ maxWidth: '1400px', width: '100%' }}>
+                        <div className="modal-content" style={{ height: '90vh', overflowY: 'auto' }}>
                             <div className="modal-header">
                                 <h5 className="modal-title">리뷰 상세</h5>
                                 <button type="button" className="btn-close" onClick={closeReviewDetail}></button>
                             </div>
-                            <div className="modal-body">
-                                <small className="text-muted" style={{ display: 'block', marginBottom: '1rem' }}>
-                                    <strong>작성일:</strong> {formatDateTime(selectedReview.createdAt)}
-                                </small>
-                                <div className="d-flex">
-                                    <div className="me-3" style={{ flex: 1 }}>
-                                        <h6>코드</h6>
+                            <div className="modal-body" style={{ fontSize: '1rem' }}>
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <small className="text-muted">
+                                        <strong>작성일:</strong> {formatDateTime(selectedReview.createdAt)}
+                                    </small>
+                                    <div>
+                                        <button className="btn btn-warning me-2" onClick={() => {
+                                            setShowUpdateModal(true); // 업데이트 모달 열기
+                                        }}>
+                                            수정
+                                        </button>
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => handleDeleteReview(selectedReview.id)}
+                                        >
+                                            삭제
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="row mb-5">
+                                    {/* Code Column */}
+                                    <div className="col-md-6">
+                                        <h5>Code</h5>
                                         <SyntaxHighlighter language={post.language}>
                                             {selectedReview.code}
                                         </SyntaxHighlighter>
                                     </div>
-                                    <div style={{ flex: 1 }}>
-                                        <h6>설명</h6>
+
+                                    {/* Description Column */}
+                                    <div className="col-md-6">
+                                        <h5>Description</h5>
                                         <p className="lead">{selectedReview.description}</p>
                                     </div>
-                                </div>
-
-                                {/* 수정 및 삭제 버튼 추가 */}
-                                <div className="mt-3 d-flex justify-content-end">
-                                    <Link to={`/ReviewUpdate/${selectedReview.id}`} className="btn btn-warning me-2">
-                                        수정
-                                    </Link>
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => handleDeleteReview(selectedReview.id)}
-                                    >
-                                        삭제
-                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
+
+            {/* Update Modal */}
+            {showUpdateModal && selectedReview && (
+                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '20%', left: '5%', width: '90%', zIndex: 1050 }}>
+                    <div className="modal-dialog" style={{ maxWidth: '600px', width: '100%' }}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">리뷰 수정</h5>
+                                <button type="button" className="btn-close" onClick={() => setShowUpdateModal(false)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <form onSubmit={() => handleUpdateReview(selectedReview)}>
+                                    <div className="mb-3">
+                                        <label htmlFor="updateCode" className="form-label">Code</label>
+                                        <textarea
+                                            id="updateCode"
+                                            className="form-control"
+                                            value={selectedReview.code}
+                                            onChange={(e) => setSelectedReview({ ...selectedReview, code: e.target.value })}
+                                            required
+                                            style={{ minHeight: '150px', backgroundColor: '#f0f0f0', color: '#333', fontFamily: 'Arial, sans-serif' }}
+                                        />
+                                    </div>
+
+                                    <div className="mb-3">
+                                        <label htmlFor="updateDescription" className="form-label">Description</label>
+                                        <textarea
+                                            id="updateDescription"
+                                            className="form-control"
+                                            value={selectedReview.description}
+                                            onChange={(e) => setSelectedReview({ ...selectedReview, description: e.target.value })}
+                                            required
+                                            style={{ minHeight: '150px', backgroundColor: 'white', color: '#333', fontFamily: 'Arial, sans-serif' }}
+                                        />
+                                    </div>
+
+                                    <button type="submit" className="btn btn-success">수정 완료</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
