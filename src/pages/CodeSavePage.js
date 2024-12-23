@@ -61,6 +61,15 @@ const CodeSavePage = () => {
         }
     };
 
+    // 오늘 날짜를 YYYY-MM-DD 형식으로 구하는 함수
+    const getTodayDate = () => {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const yyyy = today.getFullYear();
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
     return (
         <div className="container mt-5 position-relative">
             {/* Star Rating in the Top-Right Corner */}
@@ -113,6 +122,7 @@ const CodeSavePage = () => {
                             className="form-control"
                             value={reviewDay}
                             onChange={(e) => setReviewDay(e.target.value)}
+                            min={getTodayDate()} // 오늘 이후 날짜만 선택 가능
                             style={{ width: '200px' }} // 날짜 입력 필드 길이 조정
                         />
                     )}

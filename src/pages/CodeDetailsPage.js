@@ -169,35 +169,37 @@ const CodeDetailsPage = () => {
                         </span>
 
                         {/* Dropdown Button for Edit/Delete */}
-                        <div className="dropdown me-2">
-                            <button
-                                className="btn btn-secondary dropdown-toggle"
-                                type="button"
-                                id="dropdownMenuButton"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                            </button>
-                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <Link
-                                        to={`/CodeUpdate/${post.id}`}
-                                        state={{ post }}
-                                        className="dropdown-item"
-                                    >
-                                        수정
-                                    </Link>
-                                </li>
-                                <li>
-                                    <button
-                                        onClick={handleDelete}
-                                        className="dropdown-item"
-                                    >
-                                        삭제
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                        {post.memberDto.email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
+                            <div className="dropdown me-2">
+                                <button
+                                    className="btn btn-secondary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                </button>
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <Link
+                                            to={`/CodeUpdate/${post.id}`}
+                                            state={{ post }}
+                                            className="dropdown-item"
+                                        >
+                                            수정
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={handleDelete}
+                                            className="dropdown-item"
+                                        >
+                                            삭제
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
 
                         {/* 리뷰 작성 및 보기 버튼 */}
                         {post.memberDto.email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
