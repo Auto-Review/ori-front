@@ -158,7 +158,7 @@ const CodeDetailsPage = () => {
 
             <div className="mb-5">
                 {/* Post Title */}
-                <h1 className="display-4 mb-3">{post.title}</h1>
+                <h1 className="display-4 mb-3" style={{width: '80%'}}>{post.title}</h1>
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
                         <span className="text-muted me-2">
@@ -183,7 +183,7 @@ const CodeDetailsPage = () => {
                                     <li>
                                         <Link
                                             to={`/CodeUpdate/${post.id}`}
-                                            state={{ post }}
+                                            state={{post}}
                                             className="dropdown-item"
                                         >
                                             수정
@@ -232,12 +232,14 @@ const CodeDetailsPage = () => {
 
             {/* Review Modal */}
             {showModal && (
-                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '10%', left: '5%', width: '90%', zIndex: 1050 }}>
-                    <div className="modal-dialog" style={{ maxWidth: '600px', width: '100%' }}>
+                <div className="modal show"
+                     style={{display: 'block', position: 'fixed', top: '10%', left: '5%', width: '90%', zIndex: 1050}}>
+                    <div className="modal-dialog" style={{maxWidth: '600px', width: '100%'}}>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">리뷰 작성</h5>
-                                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                                <button type="button" className="btn-close"
+                                        onClick={() => setShowModal(false)}></button>
                             </div>
                             <div className="modal-body">
                                 <form onSubmit={handleReviewSubmit}>
@@ -250,7 +252,12 @@ const CodeDetailsPage = () => {
                                             onChange={(e) => setNewCode(e.target.value)}
                                             placeholder="코드를 입력해주세요"
                                             required
-                                            style={{ minHeight: '150px', backgroundColor: '#f0f0f0', color: '#333', fontFamily: 'Arial, sans-serif' }}
+                                            style={{
+                                                minHeight: '150px',
+                                                backgroundColor: '#f0f0f0',
+                                                color: '#333',
+                                                fontFamily: 'Arial, sans-serif'
+                                            }}
                                         />
                                     </div>
 
@@ -263,7 +270,12 @@ const CodeDetailsPage = () => {
                                             onChange={(e) => setNewDescription(e.target.value)}
                                             placeholder="설명을 입력해주세요"
                                             required
-                                            style={{ minHeight: '150px', backgroundColor: 'white', color: '#333', fontFamily: 'Arial, sans-serif' }}
+                                            style={{
+                                                minHeight: '150px',
+                                                backgroundColor: 'white',
+                                                color: '#333',
+                                                fontFamily: 'Arial, sans-serif'
+                                            }}
                                         />
                                     </div>
 
@@ -277,12 +289,15 @@ const CodeDetailsPage = () => {
 
             {/* Review Viewing Modal */}
             {showReviewListModal && (
-                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '10%', left: '5%', width: '90%', zIndex: 1050 }}>
-                    <div className="modal-dialog" style={{ maxWidth: '600px', width: '100%' }}>
+                <div className="modal show"
+                     style={{display: 'block', position: 'fixed', top: '10%', left: '5%', width: '90%', zIndex: 1050}}>
+                    <div className="modal-dialog" style={{maxWidth: '600px', width: '100%'}}>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">리뷰 목록</h5>
-                                <button type="button" className="btn-close" onClick={() => setShowReviewListModal(false)}></button> {/* 수정된 부분 */}
+                                <button type="button" className="btn-close"
+                                        onClick={() => setShowReviewListModal(false)}></button>
+                                {/* 수정된 부분 */}
                             </div>
                             <div className="modal-body">
                                 {reviews.length > 0 ? (
@@ -292,7 +307,7 @@ const CodeDetailsPage = () => {
                                                 key={review.id}
                                                 className="list-group-item"
                                                 onClick={() => handleReviewClick(review.id)} // 클릭 이벤트 추가
-                                                style={{ cursor: 'pointer' }} // 커서 변경
+                                                style={{cursor: 'pointer'}} // 커서 변경
                                             >
                                                 {formatDateTime(review.createdAt)} {/* 포맷팅된 날짜 시간 표시 */}
                                             </li>
@@ -308,14 +323,15 @@ const CodeDetailsPage = () => {
             )}
 
             {showReviewModal && selectedReview && (
-                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '20%', left: '5%', width: '90%', zIndex: 1050 }}>
-                    <div className="modal-dialog" style={{ maxWidth: '1400px', width: '100%' }}>
-                        <div className="modal-content" style={{ height: '90vh', overflowY: 'auto' }}>
+                <div className="modal show"
+                     style={{display: 'block', position: 'fixed', top: '20%', left: '5%', width: '90%', zIndex: 1050}}>
+                    <div className="modal-dialog" style={{maxWidth: '1400px', width: '100%'}}>
+                        <div className="modal-content" style={{height: '90vh', overflowY: 'auto'}}>
                             <div className="modal-header">
                                 <h5 className="modal-title">리뷰 상세</h5>
                                 <button type="button" className="btn-close" onClick={closeReviewDetail}></button>
                             </div>
-                            <div className="modal-body" style={{ fontSize: '1rem' }}>
+                            <div className="modal-body" style={{fontSize: '1rem'}}>
                                 <div className="d-flex justify-content-between align-items-center mb-3">
                                     <small className="text-muted">
                                         <strong>작성일:</strong> {formatDateTime(selectedReview.createdAt)}
@@ -357,12 +373,14 @@ const CodeDetailsPage = () => {
 
             {/* Update Modal */}
             {showUpdateModal && selectedReview && (
-                <div className="modal show" style={{ display: 'block', position: 'fixed', top: '20%', left: '5%', width: '90%', zIndex: 1050 }}>
-                    <div className="modal-dialog" style={{ maxWidth: '600px', width: '100%' }}>
+                <div className="modal show"
+                     style={{display: 'block', position: 'fixed', top: '20%', left: '5%', width: '90%', zIndex: 1050}}>
+                    <div className="modal-dialog" style={{maxWidth: '600px', width: '100%'}}>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">리뷰 수정</h5>
-                                <button type="button" className="btn-close" onClick={() => setShowUpdateModal(false)}></button>
+                                <button type="button" className="btn-close"
+                                        onClick={() => setShowUpdateModal(false)}></button>
                             </div>
                             <div className="modal-body">
                                 <form onSubmit={() => handleUpdateReview(selectedReview)}>
@@ -372,9 +390,17 @@ const CodeDetailsPage = () => {
                                             id="updateCode"
                                             className="form-control"
                                             value={selectedReview.code}
-                                            onChange={(e) => setSelectedReview({ ...selectedReview, code: e.target.value })}
+                                            onChange={(e) => setSelectedReview({
+                                                ...selectedReview,
+                                                code: e.target.value
+                                            })}
                                             required
-                                            style={{ minHeight: '150px', backgroundColor: '#f0f0f0', color: '#333', fontFamily: 'Arial, sans-serif' }}
+                                            style={{
+                                                minHeight: '150px',
+                                                backgroundColor: '#f0f0f0',
+                                                color: '#333',
+                                                fontFamily: 'Arial, sans-serif'
+                                            }}
                                         />
                                     </div>
 
@@ -384,9 +410,17 @@ const CodeDetailsPage = () => {
                                             id="updateDescription"
                                             className="form-control"
                                             value={selectedReview.description}
-                                            onChange={(e) => setSelectedReview({ ...selectedReview, description: e.target.value })}
+                                            onChange={(e) => setSelectedReview({
+                                                ...selectedReview,
+                                                description: e.target.value
+                                            })}
                                             required
-                                            style={{ minHeight: '150px', backgroundColor: 'white', color: '#333', fontFamily: 'Arial, sans-serif' }}
+                                            style={{
+                                                minHeight: '150px',
+                                                backgroundColor: 'white',
+                                                color: '#333',
+                                                fontFamily: 'Arial, sans-serif'
+                                            }}
                                         />
                                     </div>
 
