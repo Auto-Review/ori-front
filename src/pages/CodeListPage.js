@@ -9,7 +9,6 @@ const CodeListPage = () => {
     const [size, setSize] = useState(9);
     const [totalPage, setTotalPage] = useState();
     const [keyword, setKeyword] = useState();
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPosts = async (page, size, keyword) => {
@@ -86,9 +85,9 @@ const CodeListPage = () => {
                                             </span>
                                         ))}
                                     </div>
-                                    
+
                                     <div className="card-body">
-                                        <h5 className="card-title">{post.title}</h5>
+                                        <h5 className="card-title" style={{width: '80%'}}>{post.title}</h5>
                                         <p className="card-text text-muted">{post.description}</p>
                                         <p className="card-text text-muted">{post.member.nickname}</p>
                                     </div>
