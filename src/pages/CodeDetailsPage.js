@@ -226,7 +226,7 @@ const CodeDetailsPage = () => {
                 {/* Description Column */}
                 <div className="col-md-6">
                     <h5>Description</h5>
-                    <p className="lead">{post.description}</p>
+                    <p className="lead" dangerouslySetInnerHTML={{ __html: post.description.replace(/\n/g, '<br />') }} />
                 </div>
             </div>
 
@@ -362,7 +362,7 @@ const CodeDetailsPage = () => {
                                     {/* Description Column */}
                                     <div className="col-md-6">
                                         <h5>Description</h5>
-                                        <p className="lead">{selectedReview.description}</p>
+                                        <p className="lead" dangerouslySetInnerHTML={{ __html: selectedReview.description.replace(/\n/g, '<br />') }} />
                                     </div>
                                 </div>
                             </div>
