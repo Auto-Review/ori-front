@@ -162,14 +162,14 @@ const CodeDetailsPage = () => {
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
                         <span className="text-muted me-2">
-                            {post.memberDto.nickname} | {new Date(post.createDate).toLocaleString('ko-KR', {
+                            {post.writer_nickname} | {new Date(post.createDate).toLocaleString('ko-KR', {
                             year: 'numeric', month: '2-digit', day: '2-digit',
                             hour: '2-digit', minute: '2-digit', hour12: false
                         })}
                         </span>
 
                         {/* Dropdown Button for Edit/Delete */}
-                        {post.memberDto.email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
+                        {post.writer_email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
                             <div className="dropdown me-2">
                                 <button
                                     className="btn btn-secondary dropdown-toggle"
@@ -202,7 +202,7 @@ const CodeDetailsPage = () => {
                         )}
 
                         {/* 리뷰 작성 및 보기 버튼 */}
-                        {post.memberDto.email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
+                        {post.writer_email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
                             <>
                                 <button className="btn btn-primary me-2" onClick={() => setShowModal(true)}>리뷰 작성</button>
                                 <button className="btn btn-info" onClick={handleShowReviews}>리뷰 목록</button>

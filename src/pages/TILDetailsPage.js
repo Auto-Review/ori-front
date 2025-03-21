@@ -72,7 +72,7 @@ const TILDetailsPage = () => {
 				<div className="d-flex justify-content-between align-items-center">
 					<div className="d-flex align-items-center">
                         <span className="text-muted me-2">
-                            {post.member.nickname} | {new Date(post.createDate).toLocaleString('ko-KR', {
+                            {post.writer_nickname} | {new Date(post.createDate).toLocaleString('ko-KR', {
 							year: 'numeric', month: '2-digit', day: '2-digit',
 							hour: '2-digit', minute: '2-digit', hour12: false
 						})}
