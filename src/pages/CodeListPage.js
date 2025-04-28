@@ -89,7 +89,7 @@ const CodeListPage = () => {
                                     <div className="card-body">
                                         <h5 className="card-title" style={{width: '80%'}}>{post.title}</h5>
                                         <p className="card-text text-muted">{post.description}</p>
-                                        <p className="card-text text-muted">{post.member.nickname}</p>
+                                        <p className="card-text text-muted">{post.writer_nickname}</p>
                                     </div>
                                 </div>
                             </Link>
