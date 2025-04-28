@@ -15,8 +15,8 @@ const ProfileUpdatePage = () => {
         const fetchProfile = async () => {
             try {
                 const response = await axiosInstance.get('/v1/api/profile/info');
-                setProfile(response.data.data);
-                setNickname(response.data.data.nickname); // 초기 닉네임 설정
+                setProfile(response.data);
+                setNickname(response.data.nickname); // 초기 닉네임 설정
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -39,7 +39,7 @@ const ProfileUpdatePage = () => {
                 id: profile.id,
                 nickname: nickname
             });
-            setProfile(response.data.data); // 업데이트된 프로필로 상태 변경
+            setProfile(response.data); // 업데이트된 프로필로 상태 변경
             alert('프로필 성공적으로 변경되었습니다.');
         } catch (err) {
             console.error(err);

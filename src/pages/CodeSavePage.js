@@ -31,7 +31,7 @@ const CodeSavePage = () => {
 
             if (isReviewDayEnabled && reviewDay !== "") {
                 await axiosInstance.post('/v1/api/notification', {
-                    id: response.data.data,
+                    id: response.data,
                     content: title,
                     reviewDay,
                 });

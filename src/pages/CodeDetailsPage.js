@@ -36,7 +36,8 @@ const CodeDetailsPage = () => {
         const fetchPost = async () => {
             try {
                 const postResponse = await axiosInstance.get(`/v1/api/post/code/detail/${id}`);
-                setPost(postResponse.data.data);
+                setPost(postResponse.data);
+                console.log(post)
             } catch (err) {
                 setError('Failed to load post details');
             } finally {
@@ -77,8 +78,8 @@ const CodeDetailsPage = () => {
     const handleShowReviews = async () => {
         try {
             const reviewResponse = await axiosInstance.get(`/v1/api/review/${post.id}/list`);
-            if (reviewResponse.data.data) {
-                setReviews(reviewResponse.data.data);
+            if (reviewResponse.data) {
+                setReviews(reviewResponse.data);
             } else {
                 setReviews([]); // 빈 배열로 설정
             }
@@ -91,8 +92,8 @@ const CodeDetailsPage = () => {
     const handleReviewClick = async (reviewId) => {
         try {
             const reviewResponse = await axiosInstance.get(`/v1/api/review/detail/${reviewId}`); // 리뷰 ID를 사용하여 상세 정보 요청
-            if (reviewResponse.data.data) {
-                setSelectedReview(reviewResponse.data.data); // 선택된 리뷰 데이터 설정
+            if (reviewResponse.data) {
+                setSelectedReview(reviewResponse.data); // 선택된 리뷰 데이터 설정
                 setShowReviewModal(true); // 상세 모달 열기
             }
         } catch (err) {
@@ -162,14 +163,14 @@ const CodeDetailsPage = () => {
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
                         <span className="text-muted me-2">
-                            {post.writer_nickname} | {new Date(post.createDate).toLocaleString('ko-KR', {
+                            {post.writerNickName} | {new Date(post.createDate).toLocaleString('ko-KR', {
                             year: 'numeric', month: '2-digit', day: '2-digit',
                             hour: '2-digit', minute: '2-digit', hour12: false
                         })}
                         </span>
 
                         {/* Dropdown Button for Edit/Delete */}
-                        {post.writer_email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
+                        {post.writerEmail === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
                             <div className="dropdown me-2">
                                 <button
                                     className="btn btn-secondary dropdown-toggle"
@@ -202,7 +203,7 @@ const CodeDetailsPage = () => {
                         )}
 
                         {/* 리뷰 작성 및 보기 버튼 */}
-                        {post.writer_email === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
+                        {post.writerEmail === localStorage.getItem('email') && ( // 이메일이 같을 때만 버튼 표시
                             <>
                                 <button className="btn btn-primary me-2" onClick={() => setShowModal(true)}>리뷰 작성</button>
                                 <button className="btn btn-info" onClick={handleShowReviews}>리뷰 목록</button>

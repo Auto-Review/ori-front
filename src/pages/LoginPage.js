@@ -19,7 +19,7 @@ const LoginPage = () => {
 				console.log(response);
 				let accessToken = response.headers.get("accessToken");
 				let refreshToken = response.headers.get("refreshToken");
-				let email = response.data.data;
+				let email = response.data;
 
 				localStorage.setItem("accessToken", accessToken);
 				localStorage.setItem("refreshToken", refreshToken);
