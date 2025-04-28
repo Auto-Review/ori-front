@@ -22,8 +22,8 @@ const MyTILListPage = () => {
                 
                 const response = await axiosInstance.get(keyword ? 'v1/api/post/til/own/search' : '/v1/api/post/til/own', {params} )
                 console.log(response);
-                setPosts(response.data.data.dtoList);
-                setTotalPage(response.data.data.totalPage);
+                setPosts(response.data.dtoList);
+                setTotalPage(response.data.totalPage);
             } catch (error) {
                 console.error('Fetch posts failed:', error);
             }

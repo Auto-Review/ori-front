@@ -16,9 +16,9 @@ const TILDetailsPage = () => {
 		const fetchPost = async () => {
 			try {
 				const response = await axiosInstance.get(email ? `/v1/api/post/til/own/${id}` : `/v1/api/post/til/detail/${id}`);
-				setPost(response.data.data);
+				setPost(response.data);
 				if(email){
-					setIsBookmarked(response.data.data.isBookmarked);
+					setIsBookmarked(response.data.isBookmarked);
 				}
 				console.log(response);
 			} catch (err) {

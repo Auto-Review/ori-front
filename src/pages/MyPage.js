@@ -10,7 +10,7 @@ const MyPage = () => {
 		const fetchProfile = async () => {
 			try {
 				const response = await axiosInstance.get('/v1/api/profile/info');
-				setProfile(response.data.data);
+				setProfile(response.data);
                 console.log(response);
 			} catch (err) {
 				console.error(err);

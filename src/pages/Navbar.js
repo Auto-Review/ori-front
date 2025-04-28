@@ -22,7 +22,8 @@ const Navbar = () => {
     const getNotifications = async () => {
         try {
             const response = await axiosInstance.get('/v1/api/notification/own/unchecked');
-            setNotifications(response.data.data);
+            setNotifications(response.data);
+            console.log("notification: ",notifications)
         } catch (error) {
             console.error("알림을 가져오는 중 오류 발생:", error);
         }
