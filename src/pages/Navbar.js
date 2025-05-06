@@ -141,7 +141,7 @@ const Navbar = () => {
                                                 <button
                                                     onClick={async () => {
                                                         await handleNotificationClick(notification.id); // 알림 클릭 시 API 호출
-                                                        navigate(`/CodeDetails/${notification.id}`); // API 호출 후 페이지 이동
+                                                        navigate(`/CodeDetails/${notification.codePostId}`); // API 호출 후 페이지 이동
                                                     }}
                                                     className="dropdown-item"
                                                 >

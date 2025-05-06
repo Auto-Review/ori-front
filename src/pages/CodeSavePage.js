@@ -29,13 +29,6 @@ const CodeSavePage = () => {
                 code,
             });
 
-            if (isReviewDayEnabled && reviewDay !== "") {
-                await axiosInstance.post('/v1/api/notification', {
-                    id: response.data,
-                    content: title,
-                    reviewDay,
-                });
-            }
             setSuccess(true);
             navigate('/Code');
         } catch (err) {

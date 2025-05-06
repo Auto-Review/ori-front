@@ -47,14 +47,6 @@ const CodeUpdatePage = () => {
                 code,
             });
 
-            if (isReviewDayEnabled && reviewDay !== '') {
-                await axiosInstance.post('/v1/api/notification', {
-                    id: id,
-                    content: title,
-                    reviewDay: reviewDay,
-                });
-            }
-
             navigate('/Code');
         } catch (err) {
             setError(err.message);
