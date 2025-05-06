@@ -23,6 +23,16 @@ import ProfileUpdatePage from './pages/ProfileUpdatePage';
 import Navbar from './pages/Navbar';
 import {Container} from 'react-bootstrap';
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/firebase-messaging-sw.js')
+      .then((registration) => {
+        console.log('Service Worker 등록 성공:', registration.scope);
+      })
+      .catch((err) => {
+        console.error('Service Worker 등록 실패:', err);
+      });
+}
+
 function App() {
   return (
     <Routes>
@@ -41,11 +51,15 @@ function MemberLayout(){
         const notificationTitle = payload.notification.title;
         const notificationOptions = {
           body: payload.notification.body,
-          icon: '/firebase-logo.png',
+          icon: '/ori.ico',
         };
 
         // 포그라운드에서 알림 표시
-        new Notification(notificationTitle, notificationOptions);
+        if (!payload.notification && payload.data) {
+          const { title, body } = payload.data;
+          new Notification(notificationTitle, notificationOptions);
+        }
+
       }
     });
 

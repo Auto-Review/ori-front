@@ -29,17 +29,20 @@ export function requestPermission() {
 
 export { messaging };
 
-// 메시지 수신 리스너 설정
+// 메시지 수신 리스너 설정 (포그라운드)
 onMessage(messaging, (payload) => {
-    console.log('Message received: ', payload);
-    if (payload.notification) {
-        const notificationTitle = payload.notification.title;
+    console.log('Message received (foreground): ', payload);
+
+    // 알림 정보는 data 필드에서 꺼냅니다
+    const { title, body } = payload.data || {};
+
+    if (title && body) {
         const notificationOptions = {
-            body: payload.notification.body,
-            icon: '/firebase-logo.png',
+            body,
+            icon: '/ori.ico',
         };
 
-        // 포그라운드에서 알림 표시
-        new Notification(notificationTitle, notificationOptions);
+        new Notification(title, notificationOptions);
     }
-})
+});
+
