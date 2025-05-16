@@ -9,7 +9,6 @@ const GithubCallback = () => {
 
     useEffect(() => {
         const code = searchParams.get('code');
-        console.log("code: ",code)
 
         if (code) {
             const sendCodeToBackend = async () => {

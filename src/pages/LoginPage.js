@@ -16,7 +16,6 @@ const LoginPage = () => {
 			accessToken: accessToken
 		})
 			.then(async (response) => {
-				console.log(response);
 				let accessToken = response.headers.get("accessToken");
 				let refreshToken = response.headers.get("refreshToken");
 				let email = response.data;
@@ -30,13 +29,11 @@ const LoginPage = () => {
 				console.error('Error:', error);
 			});
 
-		console.log("fcmToken: ",localStorage.getItem("fcmToken"));
 		if(localStorage.getItem("fcmToken") === null) {
 			// 푸시 알림 권한 요청
 			try {
 				const fcmToken = await requestPermission(); // 권한 요청
 				localStorage.setItem("fcmToken", fcmToken);
-				console.log('push FCM Token:', fcmToken);
 
 				// FCM 토큰과 사용자 정보 서버에 전송
 				await axiosInstance.post(`${process.env.REACT_APP_API_URL}/v1/api/fcm`, {

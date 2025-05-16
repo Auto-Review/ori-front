@@ -21,7 +21,6 @@ const TILListPage = () => {
                 }
                 
                 const response = await axiosInstance.get(keyword ? 'v1/api/post/til/search' : '/v1/api/post/til/list', {params} )
-                console.log(response);
                 setPosts(response.data.dtoList);
                 setTotalPage(response.data.totalPage);
             } catch (error) {

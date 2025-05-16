@@ -17,7 +17,6 @@ const BookmarkTILPage = () => {
 
             try{
                 const response = await axiosInstance.get('/v1/api/profile/bookmark/til', {params} )
-                console.log(response);
                 setPosts(response.data.dtoList);
                 setTotalPage(response.data.totalPage);
             } catch (error) {
