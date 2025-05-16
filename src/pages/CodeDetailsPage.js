@@ -37,7 +37,6 @@ const CodeDetailsPage = () => {
             try {
                 const postResponse = await axiosInstance.get(`/v1/api/post/code/detail/${id}`);
                 setPost(postResponse.data);
-                console.log(post)
             } catch (err) {
                 setError('Failed to load post details');
             } finally {
@@ -102,11 +101,6 @@ const CodeDetailsPage = () => {
     };
 
     const handleUpdateReview = async (review) => {
-        console.log(review);
-        console.log(review.id);
-        console.log(review.code);
-        console.log(review.description);
-
         try {
             await axiosInstance.put(`/v1/api/review`, {
                 id: review.id,
@@ -122,7 +116,6 @@ const CodeDetailsPage = () => {
 
     // 리뷰 삭제 함수
     const handleDeleteReview = async (reviewId) => {
-        console.log("reviewId:", reviewId);
         try {
             const reviewResponse = await axiosInstance.delete(`/v1/api/review`, {
                 data: {
@@ -130,7 +123,6 @@ const CodeDetailsPage = () => {
                     email: localStorage.getItem('email')
                 }
             });
-            console.log("reviewResponse:",reviewResponse);
             setReviews(reviews.filter(review => review.id !== reviewId)); // 삭제된 리뷰를 목록에서 제거
             setShowReviewModal(false); // 모달 닫기
         } catch (err) {

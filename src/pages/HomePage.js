@@ -29,13 +29,10 @@ const HomePage = () => {
 		.then((response) => {
 			let newAccessToken = response.headers.get("accessToken");
 			let newRefreshToken = response.headers.get("refreshToken");
-			console.log("accessToken", newAccessToken);
-			console.log("refreshToken", newRefreshToken);
 			localStorage.setItem("accessToken", newAccessToken);
 			localStorage.setItem("refreshToken", newRefreshToken);
 		})
 		.then((data) => {
-			console.log('Success:', data);
 		})
 		.catch((error) => {
 			console.error('Error:', error);

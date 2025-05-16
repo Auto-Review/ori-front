@@ -12,7 +12,6 @@ axiosInstance.defaults.baseURL = `${process.env.REACT_APP_API_URL}`
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
-        console.log("current axiosIntstance accessToken = ", token);
         if (token) {
         config.headers['Authorization'] = token; 
         }
@@ -45,9 +44,6 @@ axiosInstance.interceptors.response.use(
                 
                 const newAccessToken = response.headers.get('accessToken');
                 const newRefreshToken = response.headers.get('refreshToken');
-
-                console.log("new accessToken = ", newAccessToken);
-                console.log("new refreshToken = ", newRefreshToken);
                 
                 if (newAccessToken && newRefreshToken) {
                     localStorage.setItem('accessToken', newAccessToken);

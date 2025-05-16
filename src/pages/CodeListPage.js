@@ -20,7 +20,6 @@ const CodeListPage = () => {
                 }
 
                 const response = await axiosInstance.get(keyword ? 'v1/api/post/code/search' : '/v1/api/post/code/list', {params} )
-                console.log(response);
                 setPosts(response.data.dtoList);
                 setTotalPage(response.data.totalPage);
             } catch (error) {

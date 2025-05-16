@@ -21,6 +21,7 @@ import CodeDetailsPage from './pages/CodeDetailsPage';
 import MyPage from './pages/MyPage';
 import ProfileUpdatePage from './pages/ProfileUpdatePage';
 import Navbar from './pages/Navbar';
+import GithubCallback from './pages/GithubCallback';
 import {Container} from 'react-bootstrap';
 
 if ('serviceWorker' in navigator) {
@@ -87,6 +88,7 @@ function MemberLayout(){
             <Route path="/CodeSave" element={<CodeSavePage />} />
             <Route path="/CodeUpdate/:id" element={<CodeUpdatePage />} />
             <Route path="/CodeDetails/:id" element={<CodeDetailsPage />} />
+            <Route path="/github/callback" element={<GithubCallback />} />
           </Routes>
         </Container>
     </div>
