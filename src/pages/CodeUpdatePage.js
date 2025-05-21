@@ -127,8 +127,10 @@ const CodeUpdatePage = () => {
                         className="form-select"
                         value={language}
                         onChange={(e) => setLanguage(e.target.value)}
-                        style={{ width: '300px' }} // 드롭다운 길이 조정
+                        style={{width: '300px'}} // 드롭다운 길이 조정
                     >
+                        <option value="all">All</option>
+                        <option value="kotlin">Kotlin</option>
                         <option value="javascript">JavaScript</option>
                         <option value="python">Python</option>
                         <option value="java">Java</option>
