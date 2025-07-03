@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
 const CodeSavePage = () => {
@@ -20,7 +20,7 @@ const CodeSavePage = () => {
         setSuccess(false);
 
         try {
-            let response = await axiosInstance.post('/v1/api/post/code', {
+            await axiosInstance.post('/v1/api/post/code', {
                 title,
                 level,
                 reviewDay: isReviewDayEnabled ? reviewDay : '', // 토글에 따라 리뷰 데이 설정
