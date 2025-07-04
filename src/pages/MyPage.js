@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import axiosInstance from '../auth/axiosInstance';
+import { requestPermission } from '../firebase-config';
 
 const CLIENT_ID = 'Ov23liWsVtSfmF9kMXd6';
 const REDIRECT_URI = 'http://localhost:3000/github/callback';
 
 const MyPage = () => {
     const [profile, setProfile] = useState(null);
-    const [isGithubLinked, setIsGithubLinked] = useState(null); // null로 초기화
+    const [isGithubLinked, setIsGithubLinked] = useState(null);
+    const [notificationStatus, setNotificationStatus] = useState(Notification.permission); // granted / default / denied
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,7 +18,7 @@ const MyPage = () => {
                 setProfile(profileRes.data);
 
                 const tokenRes = await axiosInstance.get('/v1/api/github/token/check');
-                setIsGithubLinked(tokenRes.data); // true or false
+                setIsGithubLinked(tokenRes.data);
             } catch (err) {
                 console.error(err);
             }
@@ -24,6 +26,61 @@ const MyPage = () => {
 
         fetchData();
     }, []);
+
+    const handleWebNotification = async () => {
+        const storedToken = localStorage.getItem("fcmToken");
+        const permission = Notification.permission;
+
+        console.log("Notification 권한 상태:", permission);
+        console.log("LocalStorage fcmToken:", storedToken);
+
+        // 👉 이미 FCM 등록되어 있으면 → "알림 차단"
+        if (storedToken !== null) {
+            try {
+                await axiosInstance.delete('/v1/api/fcm', {
+                    data: { fcmToken: storedToken },
+                });
+                localStorage.removeItem("fcmToken");
+                alert("알림이 차단되었습니다.");
+                setNotificationStatus("default");
+            } catch (error) {
+                console.error("FCM 삭제 실패:", error);
+                alert("알림 차단 처리 중 오류가 발생했습니다.");
+            }
+            return;
+        }
+
+        // 👉 FCM 등록되어 있지 않지만, 권한은 여전히 'granted'인 경우 → 재등록
+        if (permission === "granted" || permission === "default") {
+            try {
+                const fcmToken = await requestPermission();
+
+                if (!fcmToken) {
+                    alert("알림 권한이 허용되지 않았습니다.");
+                    return;
+                }
+
+                localStorage.setItem("fcmToken", fcmToken);
+
+                await axiosInstance.post("/v1/api/fcm", {
+                    fcmToken,
+                });
+
+                alert("알림이 성공적으로 설정되었습니다.");
+                setNotificationStatus("granted");
+            } catch (error) {
+                console.error("FCM 등록 실패:", error);
+                alert("알림 권한 요청에 실패했습니다.");
+            }
+            return;
+        }
+
+        // 👉 권한이 denied이면 안내
+        if (permission === "denied") {
+            alert("알림 권한이 브라우저에서 차단되어 있습니다.\n브라우저 설정 > 사이트 권한 > 알림에서 허용으로 변경해 주세요.");
+        }
+    };
+
 
     const handleGithubAuth = () => {
         const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo`;
@@ -35,6 +92,7 @@ const MyPage = () => {
             <Sidebar />
             <div style={{ padding: '20px', flex: 1 }}>
                 <h1>내 정보</h1>
+
                 {profile ? (
                     <div>
                         <p>이메일: {profile.email}</p>
@@ -49,6 +107,14 @@ const MyPage = () => {
                                 GitHub 계정 연동하기
                             </button>
                         )}
+
+                        <hr />
+
+                        <h3>🔔 웹 푸시 알림 설정</h3>
+                        <button onClick={handleWebNotification}>
+                            {localStorage.getItem("fcmToken") != null ? '알림 차단하기' : '알림 허용하기'}
+                        </button>
+
                     </div>
                 ) : (
                     <p>로딩 중...</p>
