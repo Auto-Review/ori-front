@@ -7,18 +7,27 @@ const CodeListPage = () => {
     // TODO page, size 변경 로직 작성 
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(9);
+    const [direction, setDirection] = useState("desc");
+    const [sortBy, setSortBy] = useState("id");
+    const [language, setLanguage] = useState("java");
     const [totalPage, setTotalPage] = useState();
-    const [keyword, setKeyword] = useState();
+    const [keyword, setKeyword] = useState("");
 
     useEffect(() => {
-        const fetchPosts = async (page, size, keyword) => {
-            const params = {page, size};
+        const fetchPosts = async () => {
+            const params = {
+                page,
+                size,
+                direction,
+                sortBy,
+                language
+            };
+
+            if (keyword && keyword.length >= 2) {
+                params.keyword = keyword;
+            }
 
             try{
-                if(keyword){
-                    params.keyword = keyword;
-                }
-
                 const response = await axiosInstance.get(keyword ? 'v1/api/post/code/search' : '/v1/api/post/code/list', {params} )
                 console.log(response);
                 setPosts(response.data.dtoList);
@@ -28,8 +37,8 @@ const CodeListPage = () => {
             }
         }
 
-        fetchPosts(page, size, keyword);
-    }, [page, size, keyword]); 
+        fetchPosts();
+    }, [page, size, direction, sortBy, language, keyword]);
 
     const handleNextPage = () => {
         if (page + 1 < totalPage) {
@@ -44,14 +53,15 @@ const CodeListPage = () => {
     };
 
     const handleSearchSubmit = (e) => {
-        if(e.key === "Enter"){
-            if(e.target.value.length < 2){
-                alert("두글자 이상을 입력해주세요");
-                setKeyword(null);
+        if (e.key === "Enter") {
+            const value = e.target.value.trim();
+            if (value.length < 2) {
+                alert("두 글자 이상 입력해주세요");
+                setKeyword("");
             } else {
-                setKeyword(e.target.value); // Update keyword as the user types
-                setPage(0); // Reset to the first page on new search
-            } 
+                setKeyword(value);
+                setPage(0);
+            }
         }
     };
 

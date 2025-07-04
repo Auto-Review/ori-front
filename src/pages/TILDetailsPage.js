@@ -20,7 +20,6 @@ const TILDetailsPage = () => {
 				if(email){
 					setIsBookmarked(response.data.isBookmarked);
 				}
-				console.log(response);
 			} catch (err) {
 				setError('Failed to load post details');
 			} finally {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axiosInstance from '../auth/axiosInstance';
 
 const CodeSavePage = () => {
@@ -20,7 +20,7 @@ const CodeSavePage = () => {
         setSuccess(false);
 
         try {
-            let response = await axiosInstance.post('/v1/api/post/code', {
+            await axiosInstance.post('/v1/api/post/code', {
                 title,
                 level,
                 reviewDay: isReviewDayEnabled ? reviewDay : '', // 토글에 따라 리뷰 데이 설정
@@ -129,8 +129,10 @@ const CodeSavePage = () => {
                         className="form-select"
                         value={language}
                         onChange={(e) => setLanguage(e.target.value)}
-                        style={{ width: '300px' }} // 드롭다운 길이 조정
+                        style={{width: '300px'}} // 드롭다운 길이 조정
                     >
+                        <option value="all">All</option>
+                        <option value="kotlin">Kotlin</option>
                         <option value="javascript">JavaScript</option>
                         <option value="python">Python</option>
                         <option value="java">Java</option>
