@@ -28,45 +28,56 @@ const MyPage = () => {
     }, []);
 
     const handleWebNotification = async () => {
-        const fcmToken = localStorage.getItem("fcmToken");
-        console.log("fcmToken: {}",fcmToken)
-        if (fcmToken != null) {
-            // 알림 차단 처리
+        const storedToken = localStorage.getItem("fcmToken");
+        const permission = Notification.permission;
+
+        console.log("Notification 권한 상태:", permission);
+        console.log("LocalStorage fcmToken:", storedToken);
+
+        // 👉 이미 FCM 등록되어 있으면 → "알림 차단"
+        if (storedToken !== null) {
             try {
-                if (fcmToken) {
-                    await axiosInstance.delete('/v1/api/fcm',{
-                        data:{fcmToken},
-                    })
-                    localStorage.removeItem("fcmToken");
-                }
-                setNotificationStatus("default"); // 상태 업데이트
+                await axiosInstance.delete('/v1/api/fcm', {
+                    data: { fcmToken: storedToken },
+                });
+                localStorage.removeItem("fcmToken");
+                alert("알림이 차단되었습니다.");
+                setNotificationStatus("default");
             } catch (error) {
-                console.error('FCM 토큰 삭제 실패:', error);
-                alert('알림 차단 처리 중 오류가 발생했습니다.');
+                console.error("FCM 삭제 실패:", error);
+                alert("알림 차단 처리 중 오류가 발생했습니다.");
             }
             return;
         }
 
-        // 알림 요청 처리
-        try {
-            const fcmToken = await requestPermission();
+        // 👉 FCM 등록되어 있지 않지만, 권한은 여전히 'granted'인 경우 → 재등록
+        if (permission === "granted" || permission === "default") {
+            try {
+                const fcmToken = await requestPermission();
 
-            if (!fcmToken) {
-                alert('알림 권한이 허용되지 않았습니다.');
-                return;
+                if (!fcmToken) {
+                    alert("알림 권한이 허용되지 않았습니다.");
+                    return;
+                }
+
+                localStorage.setItem("fcmToken", fcmToken);
+
+                await axiosInstance.post("/v1/api/fcm", {
+                    fcmToken,
+                });
+
+                alert("알림이 성공적으로 설정되었습니다.");
+                setNotificationStatus("granted");
+            } catch (error) {
+                console.error("FCM 등록 실패:", error);
+                alert("알림 권한 요청에 실패했습니다.");
             }
+            return;
+        }
 
-            localStorage.setItem('fcmToken', fcmToken);
-
-            await axiosInstance.post('/v1/api/fcm', {
-                fcmToken,
-            });
-
-            alert('알림이 성공적으로 설정되었습니다.');
-            setNotificationStatus('granted');
-        } catch (error) {
-            console.error('FCM 권한 요청 실패:', error);
-            alert('알림 권한 요청에 실패했습니다.');
+        // 👉 권한이 denied이면 안내
+        if (permission === "denied") {
+            alert("알림 권한이 브라우저에서 차단되어 있습니다.\n브라우저 설정 > 사이트 권한 > 알림에서 허용으로 변경해 주세요.");
         }
     };
 
@@ -100,10 +111,8 @@ const MyPage = () => {
                         <hr />
 
                         <h3>🔔 웹 푸시 알림 설정</h3>
-                        <p>현재 알림 상태: <strong>{notificationStatus}</strong></p>
-
                         <button onClick={handleWebNotification}>
-                            {notificationStatus === 'granted' ? '알림 차단하기' : '알림 허용하기'}
+                            {localStorage.getItem("fcmToken") != null ? '알림 차단하기' : '알림 허용하기'}
                         </button>
 
                     </div>
