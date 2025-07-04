@@ -10,6 +10,7 @@ const MyPage = () => {
     const [profile, setProfile] = useState(null);
     const [isGithubLinked, setIsGithubLinked] = useState(null);
     const [notificationStatus, setNotificationStatus] = useState(Notification.permission); // granted / default / denied
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,13 +29,15 @@ const MyPage = () => {
     }, []);
 
     const handleWebNotification = async () => {
+        if (isProcessing) return; // 중복 클릭 방지
+        setIsProcessing(true);
+
         const storedToken = localStorage.getItem("fcmToken");
         const permission = Notification.permission;
 
         console.log("Notification 권한 상태:", permission);
         console.log("LocalStorage fcmToken:", storedToken);
 
-        // 👉 이미 FCM 등록되어 있으면 → "알림 차단"
         if (storedToken !== null) {
             try {
                 await axiosInstance.delete('/v1/api/fcm', {
@@ -46,11 +49,12 @@ const MyPage = () => {
             } catch (error) {
                 console.error("FCM 삭제 실패:", error);
                 alert("알림 차단 처리 중 오류가 발생했습니다.");
+            } finally {
+                setIsProcessing(false);
             }
             return;
         }
 
-        // 👉 FCM 등록되어 있지 않지만, 권한은 여전히 'granted'인 경우 → 재등록
         if (permission === "granted" || permission === "default") {
             try {
                 const fcmToken = await requestPermission();
@@ -71,13 +75,15 @@ const MyPage = () => {
             } catch (error) {
                 console.error("FCM 등록 실패:", error);
                 alert("알림 권한 요청에 실패했습니다.");
+            } finally {
+                setIsProcessing(false);
             }
             return;
         }
 
-        // 👉 권한이 denied이면 안내
         if (permission === "denied") {
             alert("알림 권한이 브라우저에서 차단되어 있습니다.\n브라우저 설정 > 사이트 권한 > 알림에서 허용으로 변경해 주세요.");
+            setIsProcessing(false);
         }
     };
 
