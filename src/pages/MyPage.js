@@ -4,7 +4,7 @@ import axiosInstance from '../auth/axiosInstance';
 import { requestPermission } from '../firebase-config';
 
 const CLIENT_ID = 'Ov23liWsVtSfmF9kMXd6';
-const REDIRECT_URI = 'http://localhost:3000/github/callback';
+const REDIRECT_URI = 'https://autoreview.kr/github/callback';
 
 const MyPage = () => {
     const [profile, setProfile] = useState(null);
